@@ -92,7 +92,7 @@ app.post('/api/login', async (req, res, next) =>
   // incoming: login, password
   // outgoing: id, firstName, lastName, error
 	
- var error = '';
+  var error = '';
 
   const { login, password } = req.body;
 
