@@ -23,11 +23,13 @@ app.use((req, res, next) =>
 app.listen(5000); // start Node + Express server on port 5000
 
 // NOTE: Leinecker connection string 'mongodb+srv://RickLeinecker:COP4331Rocks@cluster0.ehunp00.mongodb.net/?retryWrites=true&w=majority'
+// const url = 
+
 // NOTE: Project connection string 'mongodb+srv://COP4331:POOSD24@cluster0.pwkanif.mongodb.net/'
-const url = 'mongodb+srv://RickLeinecker:COP4331Rocks@cluster0.ehunp00.mongodb.net/?retryWrites=true&w=majority';
-  const MongoClient = require("mongodb").MongoClient;
-  const client = new MongoClient(url);
-  client.connect(console.log("mongodb connected"));
+const url = 'mongodb+srv://COP4331:POOSD24@cluster0.pwkanif.mongodb.net/'
+const MongoClient = require("mongodb").MongoClient;
+const client = new MongoClient(url);
+client.connect(console.log("mongodb connected"));
 
 // Check http://localhost:5000/ to see Hello World
 app.get('/', function(req, res, next) {
@@ -85,34 +87,55 @@ app.post('/api/addcard', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
-
-// TODO: CHANGE TO PROJECT
-app.post('/api/login', async (req, res, next) => 
-{
-  // incoming: login, password
-  // outgoing: id, firstName, lastName, error
+// TODO: password hashing with something like bcrypt
+      // User authentication tokens - JWT's 
+      // Add Input validation and rate limiting?? 
+app.post('/api/login', async (req, res, next) => {
+  // incoming: user, password
+  // outgoing: id, firstName, lastName, , error
+  // TODO: Return Business id also 
 	
+  // Init. error var 
   var error = '';
+  const { user, password } = req.body;
+ 
+  // Connect to database 
+  const db = client.db("inventory_tracker");
 
-  const { login, password } = req.body;
+  try {
+    // In users collection, find the username and password record that matches the incoming user and password  
+    const results = await db.collection('users').find({username:user, password:password}).toArray();
 
-  const db = client.db("COP4331Cards");
-  const results = await db.collection('Users').find({Login:login,Password:password}).toArray();
+    // instantiate variables to store the results found in the database that we want to send back(id, fn, and ln)
+    var id = -1;
+    var fn = '';
+    var ln = '';
 
-  var id = -1;
-  var fn = '';
-  var ln = '';
+    // if results found, obtain from array and store in the init. variables 
+    if( results.length > 0 ) {
+      id = results[0]._id;
+      fn = results[0].firstName;
+      ln = results[0].lastName;
+      
+      // Return what we just stored in our vars, id, fn, ln 
+      var ret = { _id:id, firstName:fn, lastName:ln, error:''};
+      return res.status(200).json(ret);
+    }
 
-  if( results.length > 0 )
-  {
-    id = results[0].UserID;
-    fn = results[0].FirstName;
-    ln = results[0].LastName;
+    // User not found 
+    var ret = { error: "User not found/incorrect username or password" };
+    return res.status(401).json(ret);
+
+  } 
+
+  catch (error) {
+    console.error("Error during login:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 
-  var ret = { id:id, firstName:fn, lastName:ln, error:''};
-  res.status(200).json(ret);
 });
+
+
 
 // TODO: REMOVE (Currently to be used as reference)
 app.post('/api/searchcards', async (req, res, next) => 
