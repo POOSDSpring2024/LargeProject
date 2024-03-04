@@ -22,9 +22,6 @@ app.use((req, res, next) =>
 
 app.listen(5000); // start Node + Express server on port 5000
 
-// NOTE: Leinecker connection string 'mongodb+srv://RickLeinecker:COP4331Rocks@cluster0.ehunp00.mongodb.net/?retryWrites=true&w=majority'
-// const url = 
-
 // NOTE: Project connection string 'mongodb+srv://COP4331:POOSD24@cluster0.pwkanif.mongodb.net/'
 const url = 'mongodb+srv://COP4331:POOSD24@cluster0.pwkanif.mongodb.net/'
 const MongoClient = require("mongodb").MongoClient;
@@ -36,29 +33,59 @@ app.get('/', function(req, res, next) {
   res.send("Hello world");
 });
 
-// TODO: REMOVE (Currently to allow api/addcard to work)
-var cardList = 
-[   'Roy Campanella', 'Paul Molitor', 'Tony Gwynn', 'Dennis Eckersley', 'Reggie Jackson',
-    'Gaylord Perry', 'Buck Leonard', 'Rollie Fingers', 'Charlie Gehringer', 'Wade Boggs',
-    'Carl Hubbell', 'Dave Winfield', 'Jackie Robinson', 'Ken Griffey, Jr.', 'Al Simmons', 
-    'Chuck Klein', 'Mel Ott', 'Mark McGwire','Nolan Ryan', 'Ralph Kiner', 
-    'Yogi Berra', 'Goose Goslin', 'Greg Maddux', 'Frankie Frisch', 'Ernie Banks',
-    'Ozzie Smith', 'Hank Greenberg', 'Kirby Puckett', 'Bob Feller', 'Dizzy Dean',
-    'Joe Jackson', 'Sam Crawford', 'Barry Bonds', 'Duke Snider', 'George Sisler',
-    'Ed Walsh', 'Tom Seaver', 'Willie Stargell', 'Bob Gibson', 'Brooks Robinson', 
-    'Steve Carlton', 'Joe Medwick', 'Nap Lajoie', 'Cal Ripken, Jr.', 'Mike Schmidt',
-    'Eddie Murray', 'Tris Speaker', 'Al Kaline', 'Sandy Koufax', 'Willie Keeler',
-    'Pete Rose', 'Robin Roberts', 'Eddie Collins', 'Lefty Gomez', 'Lefty Grove',
-    'Carl Yastrzemski', 'Frank Robinson', 'Juan Marichal', 'Warren Spahn', 'Pie Traynor',
-    'Roberto Clemente', 'Harmon Killebrew', 'Satchel Paige', 'Eddie Plank', 'Josh Gibson',
-    'Oscar Charleston', 'Mickey Mantle', 'Cool Papa Bell', 'Johnny Bench', 'Mickey Cochrane',
-    'Jimmie Foxx', 'Jim Palmer', 'Cy Young', 'Eddie Mathews', 'Honus Wagner',
-    'Paul Waner', 'Grover Alexander', 'Rod Carew', 'Joe DiMaggio', 'Joe Morgan',
-    'Stan Musial', 'Bill Terry', 'Rogers Hornsby', 'Lou Brock', 'Ted Williams',
-    'Bill Dickey', 'Christy Mathewson', 'Willie McCovey', 'Lou Gehrig', 'George Brett',
-    'Hank Aaron', 'Harry Heilmann', 'Walter Johnson', 'Roger Clemens', 'Ty Cobb',
-    'Whitey Ford', 'Willie Mays', 'Rickey Henderson', 'Babe Ruth'
-];
+
+// TODO: password hashing with something like bcrypt
+      // User authentication tokens - JWT's 
+      // Add Input validation and rate limiting?? 
+      app.post('/api/login', async (req, res, next) => {
+        // incoming: user, password
+        // outgoing: id, firstName, lastName, , error
+        // TODO: Return Business id also 
+        
+        // Init. error var 
+        var error = '';
+        const { user, password } = req.body;
+       
+        // Connect to database 
+        const db = client.db("inventory_tracker");
+      
+        try {
+          // In users collection, find the username and password record that matches the incoming user and password  
+          const results = await db.collection('users').find({username:user, password:password}).toArray();
+      
+          // instantiate variables to store the results found in the database that we want to send back(id, fn, and ln)
+          var id = -1;
+          var fn = '';
+          var ln = '';
+      
+          // if results found, obtain from array and store in the init. variables 
+          if( results.length > 0 ) {
+            id = results[0]._id;
+            fn = results[0].firstName;
+            ln = results[0].lastName;
+            
+            // Return what we just stored in our vars, id, fn, ln 
+            var ret = { _id:id, firstName:fn, lastName:ln, error:''};
+            return res.status(200).json(ret);
+          }
+      
+          // User not found 
+          var ret = { error: "User not found/incorrect username or password" };
+          return res.status(401).json(ret);
+      
+        } 
+      
+        catch (error) {
+          console.error("Error during login:", error);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+      
+      });
+
+
+
+
+
 
 // TODO: REMOVE (Currently to be used as reference)
 app.post('/api/addcard', async (req, res, next) =>
@@ -86,55 +113,6 @@ app.post('/api/addcard', async (req, res, next) =>
   var ret = { error: error };
   res.status(200).json(ret);
 });
-
-// TODO: password hashing with something like bcrypt
-      // User authentication tokens - JWT's 
-      // Add Input validation and rate limiting?? 
-app.post('/api/login', async (req, res, next) => {
-  // incoming: user, password
-  // outgoing: id, firstName, lastName, , error
-  // TODO: Return Business id also 
-	
-  // Init. error var 
-  var error = '';
-  const { user, password } = req.body;
- 
-  // Connect to database 
-  const db = client.db("inventory_tracker");
-
-  try {
-    // In users collection, find the username and password record that matches the incoming user and password  
-    const results = await db.collection('users').find({username:user, password:password}).toArray();
-
-    // instantiate variables to store the results found in the database that we want to send back(id, fn, and ln)
-    var id = -1;
-    var fn = '';
-    var ln = '';
-
-    // if results found, obtain from array and store in the init. variables 
-    if( results.length > 0 ) {
-      id = results[0]._id;
-      fn = results[0].firstName;
-      ln = results[0].lastName;
-      
-      // Return what we just stored in our vars, id, fn, ln 
-      var ret = { _id:id, firstName:fn, lastName:ln, error:''};
-      return res.status(200).json(ret);
-    }
-
-    // User not found 
-    var ret = { error: "User not found/incorrect username or password" };
-    return res.status(401).json(ret);
-
-  } 
-
-  catch (error) {
-    console.error("Error during login:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
-
-});
-
 
 
 // TODO: REMOVE (Currently to be used as reference)
