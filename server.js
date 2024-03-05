@@ -38,20 +38,20 @@ app.get('/', function(req, res, next) {
       // User authentication tokens - JWT's 
       // Add Input validation and rate limiting?? 
       app.post('/api/login', async (req, res, next) => {
-        // incoming: user, password
+        // incoming: username, password
         // outgoing: id, firstName, lastName, , error
         // TODO: Return Business id also 
         
         // Init. error var 
         var error = '';
-        const { user, password } = req.body;
+        const { username, password } = req.body;
        
         // Connect to database 
         const db = client.db("inventory_tracker");
       
         try {
           // In users collection, find the username and password record that matches the incoming user and password  
-          const results = await db.collection('users').find({username:user, password:password}).toArray();
+          const results = await db.collection('users').find({username:username, password:password}).toArray();
       
           // instantiate variables to store the results found in the database that we want to send back(id, fn, and ln)
           var id = -1;
