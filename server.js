@@ -54,6 +54,7 @@ app.post('/api/login', async (req, res, next) => {
     var id = -1;
     var fn = '';
     var ln = '';
+    var email = ''; 
     var bId = [];
 
       
@@ -62,10 +63,11 @@ app.post('/api/login', async (req, res, next) => {
       id = results[0]._id;
       fn = results[0].firstName;
       ln = results[0].lastName;
+      email = results[0].email; 
       bId = results[0].businessIdList; 
             
       // Return what we just stored in our vars, id, fn, ln 
-      var ret = { _id:id, firstName:fn, lastName:ln, businessIdList: bId, error:''};
+      var ret = { _id:id, firstName:fn, lastName:ln, email:email, businessIdList: bId, error:''};
       return res.status(200).json(ret);
     }
       
