@@ -34,55 +34,53 @@ app.get('/', function(req, res, next) {
 });
 
 
-// TODO: password hashing with something like bcrypt
-      // User authentication tokens - JWT's 
-      // Add Input validation and rate limiting?? 
-      app.post('/api/login', async (req, res, next) => {
-        // incoming: username, password
-        // outgoing: id, firstName, lastName, , error
-        // TODO: Return Business id also 
+// TODO: JWT's 
+app.post('/api/login', async (req, res, next) => {
+  // incoming: username, password
+  // outgoing: id, firstName, lastName, businessIdList, error
         
-        // Init. error var 
-        var error = '';
-        const { username, password } = req.body;
+  // Init. error var 
+  var error = '';
+  const { username, password } = req.body;
        
-        // Connect to database 
-        const db = client.db("inventory_tracker");
+  // Connect to database 
+  const db = client.db("inventory_tracker");
       
-        try {
-          // In users collection, find the username and password record that matches the incoming user and password  
-          const results = await db.collection('users').find({username:username, password:password}).toArray();
+  try {
+    // In users collection, find the username and password record that matches the incoming user and password  
+    const results = await db.collection('users').find({username:username, password:password}).toArray();
       
-          // instantiate variables to store the results found in the database that we want to send back(id, fn, and ln)
-          var id = -1;
-          var fn = '';
-          var ln = '';
+    // instantiate variables to store the results found in the database that we want to send back(id, fn, and ln)
+    var id = -1;
+    var fn = '';
+    var ln = '';
+    var bId = [];
+
       
-          // if results found, obtain from array and store in the init. variables 
-          if( results.length > 0 ) {
-            id = results[0]._id;
-            fn = results[0].firstName;
-            ln = results[0].lastName;
+    // if results found, obtain from array and store in the init. variables 
+    if( results.length > 0 ) {
+      id = results[0]._id;
+      fn = results[0].firstName;
+      ln = results[0].lastName;
+      bId = results[0].businessIdList; 
             
-            // Return what we just stored in our vars, id, fn, ln 
-            var ret = { _id:id, firstName:fn, lastName:ln, error:''};
-            return res.status(200).json(ret);
-          }
+      // Return what we just stored in our vars, id, fn, ln 
+      var ret = { _id:id, firstName:fn, lastName:ln, businessIdList: bId, error:''};
+      return res.status(200).json(ret);
+    }
       
-          // User not found 
-          var ret = { error: "User not found/incorrect username or password" };
-          return res.status(401).json(ret);
+      // User not found 
+      var ret = { error: "User not found/incorrect username or password" };
+      return res.status(401).json(ret);
       
-        } 
+    } 
       
-        catch (error) {
-          console.error("Error during login:", error);
-          return res.status(500).json({ error: "Internal Server Error" });
-        }
+    catch (error) {
+      console.error("Error during login:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
       
-      });
-
-
+});
 
 
 
