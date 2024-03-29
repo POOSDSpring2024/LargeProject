@@ -45,7 +45,6 @@ export default function SignUp() {
         Alert.alert('Registration Successful');
 
         // send user to dashboard page
-        // Handle successful login (e.g., save token to AsyncStorage)
       } else {
         const errorData = await response.json();
         Alert.alert('Registration Failed', errorData.message);

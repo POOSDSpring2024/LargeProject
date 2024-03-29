@@ -5,9 +5,11 @@ export default function Dashboard() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Dashboard</Text>
-      <Pressable style={styles.button} onPress={() => console.log('Pressed')}>
-        <Text style={styles.buttonText}>Logout</Text>
-      </Pressable>
+      <Link href="../../" asChild>
+        <Pressable style={styles.button} onPress={() => console.log('Pressed')}>
+          <Text style={styles.buttonText}>Logout</Text>
+        </Pressable>
+      </Link>
     </View>
   );
 }
@@ -20,7 +22,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 44,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    padding: 30
   },
   button: {
     backgroundColor: 'blue',

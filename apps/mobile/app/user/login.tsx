@@ -13,7 +13,7 @@ import {
   TextInput
 } from 'react-native';
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [click, setClick] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -33,6 +33,7 @@ export default function Login() {
       if (response.ok) {
         const data = await response.json();
         Alert.alert('Login Successful');
+
         // send user to dashboard page
         // Handle successful login (e.g., save token to AsyncStorage)
       } else {
@@ -73,9 +74,11 @@ export default function Login() {
         />
       </View>
       <View style={styles.buttonView}>
-        <Pressable style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
-        </Pressable>
+        <Link href="./dashboard" asChild>
+          <Pressable style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Login</Text>
+          </Pressable>
+        </Link>
       </View>
     </View>
   );
