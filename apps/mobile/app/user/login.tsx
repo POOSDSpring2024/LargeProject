@@ -15,8 +15,8 @@ import {
 
 export default function Login() {
   const [click, setClick] = useState(false);
-  const { username, setUsername } = useState('');
-  const { password, setPassword } = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const handleLogin = async () => {
     try {
       const response = await fetch(

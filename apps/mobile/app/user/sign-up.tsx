@@ -15,11 +15,11 @@ import {
 
 export default function SignUp() {
   const [click, setClick] = useState(false);
-  const { firstname, setFirstname } = useState('');
-  const { lastname, setLastname } = useState('');
-  const { username, setUsername } = useState('');
-  const { password, setPassword } = useState('');
-  const { email, setEmail } = useState('');
+  const [firstName, setFirstname] = useState('');
+  const [lastName, setLastname] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleSignUp = async () => {
     try {
@@ -31,8 +31,8 @@ export default function SignUp() {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            firstname,
-            lastname,
+            firstName,
+            lastName,
             username,
             password,
             email
@@ -68,7 +68,7 @@ export default function SignUp() {
         <TextInput
           style={styles.input}
           placeholder="First Name"
-          value={firstname}
+          value={firstName}
           onChangeText={setFirstname}
           autoCorrect={false}
           autoCapitalize="none"
@@ -76,7 +76,7 @@ export default function SignUp() {
         <TextInput
           style={styles.input}
           placeholder="Last Name"
-          value={lastname}
+          value={lastName}
           onChangeText={setLastname}
           autoCorrect={false}
           autoCapitalize="none"
