@@ -13,7 +13,7 @@ import {
   TextInput
 } from 'react-native';
 
-export default function Login({ navigation }) {
+export default function Login() {
   const [click, setClick] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
