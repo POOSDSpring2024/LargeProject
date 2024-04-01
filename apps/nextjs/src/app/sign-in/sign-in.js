@@ -23,9 +23,16 @@ export default function SignIn() {
         const expires = new Date();
         expires.setTime(expires.getTime() + 3 * 24 * 60 * 60 * 1000);
         document.cookie = `accessToken=${accessToken};expires=${expires.toUTCString()};path=/`;
+        
+        /*if (sizeof(businessIdList < 1))    some kind of check to see if the user is already connected to a business
+        {
+            window.location.href = '/business-sign-up';
+        }
+        */
         // Redirect to dashboard if login is successful
         window.location.href = '/dashboard';
-      } else {
+      } 
+      else {
         // If response is not ok, get error message from response body
         const { error } = await res.json();
         setError(error);
