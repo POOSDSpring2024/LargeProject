@@ -3,117 +3,15 @@ import { SideNav } from '@repo/ui/side-nav';
 import CookieComponent from '../components/CookieComponent';
 import React from 'react';
 import { useState, useEffect } from 'react';
+import Table from '../components/Table';
 
 export function Inventory() {
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState('');
   const [businessId, setbusinessId] = useState('');
-  const [name, setName] = useState('');
-  const [newName, setNewName] = useState('');
+  const [loading, setLoading] = useState(true);
   // Function to handle userId change
   const handleUserIdChange = userId => {
     setUserId(userId);
-  };
-
-  const addItem = async () => {
-    console.log(
-      'http://localhost:3001/api/crud/business/item-list/create?businessId=' +
-        businessId +
-        '&itemName=' +
-        name
-    );
-    const response = await fetch(
-      'http://localhost:3001/api/crud/business/item-list/create?businessId=' +
-        businessId +
-        '&itemName=' +
-        name,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    if (response.ok) {
-      console.log('create works!');
-    }
-  };
-
-  const searchItem = async () => {
-    console.log(
-      'http://localhost:3001/api/crud/business/item-list/read-one/?businessId=' +
-        businessId +
-        '&itemName=' +
-        name
-    );
-
-    const response = await fetch(
-      'http://localhost:3001/api/crud/business/item-list/read-one/?businessId=' +
-        businessId +
-        '&itemName=' +
-        name,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    if (response.ok) {
-      console.log('read works!');
-    }
-  };
-
-  const updateItem = async () => {
-    console.log(
-      'http://localhost:3001/api/crud/business/item-list/update?businessId=' +
-        businessId +
-        '&findItemName=' +
-        name +
-        '&newItemName=' +
-        newName
-    );
-
-    const response = await fetch(
-      'http://localhost:3001/api/crud/business/item-list/update?businessId=' +
-        businessId +
-        '&findItemName=' +
-        name +
-        '&newItemName=' +
-        newName,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    if (response.ok) {
-      console.log('update works!');
-    }
-  };
-
-  const deleteItem = async () => {
-    console.log(
-      'http://localhost:3001/api/crud/business/item-list/delete?businessId=' +
-        businessId +
-        '&itemName=' +
-        name
-    );
-    const response = await fetch(
-      'http://localhost:3001/api/crud/business/item-list/delete?businessId=' +
-        businessId +
-        '&itemName=' +
-        name,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    if (response.ok) {
-      console.log('delete works!');
-    }
   };
 
   const getBusinessId = async () => {
@@ -140,93 +38,35 @@ export function Inventory() {
   };
 
   useEffect(() => {
-    getBusinessId().then(data => {
-      console.log('Business: ', data.businessIdList[0]);
-      setbusinessId(data.businessIdList[0]);
-    });
-  });
+    if (userId != '') {
+      setLoading(false);
+      getBusinessId().then(data => {
+        console.log('Business: ', data.businessIdList[0]);
+        setbusinessId(data.businessIdList[0]);
+      });
+    }
+  }, [userId]);
 
-  return (
-    <div className="w-full h-screen grid grid-cols-[min-content_auto] grid-rows-[5fr_1fr]">
+  if (loading) {
+    return (
       <CookieComponent
         cookieName={'accessToken'}
         onUserIdChange={handleUserIdChange}
       />
-      <div className="bg-green-500">
-        <SideNav />
+    );
+  }
+
+  if (businessId != '') {
+    return (
+      <div className="w-full h-screen grid grid-cols-[min-content_auto] grid-rows-[5fr_1fr]">
+        <div className="bg-green-500">
+          <SideNav />
+        </div>
+        <div className="justify-center flex-col items-center">
+          <Table businessId={businessId} />
+        </div>
+        <div>Player</div>
       </div>
-      <div className="flex justify-center flex-col items-center">
-        {businessId}
-        <label>Insert Item- </label>
-        <label>Item name: </label>
-        <input
-          className="border-2 bg-black-500 w-300px h-50px text-lg"
-          type="text"
-          onChange={event => {
-            setName(event.target.value);
-          }}
-        />
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-          onClick={addItem}
-        >
-          Add item
-        </button>
-
-        <label>Item name: </label>
-        <input
-          className="border-2 bg-black-500 w-300px h-50px text-lg"
-          type="text"
-          onChange={event => {
-            setName(event.target.value);
-          }}
-        />
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-          onClick={searchItem}
-        >
-          search for item
-        </button>
-
-        <label>Current Item name: </label>
-        <input
-          className="border-2 bg-black-500 w-300px h-50px text-lg"
-          type="text"
-          onChange={event => {
-            setName(event.target.value);
-          }}
-        />
-        <label>Name to replace with: </label>
-        <input
-          className="border-2 bg-black-500 w-300px h-50px text-lg"
-          type="text"
-          onChange={event => {
-            setNewName(event.target.value);
-          }}
-        />
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-          onClick={updateItem}
-        >
-          update an item
-        </button>
-
-        <label> Delete an item </label>
-        <input
-          className="border-2 bg-black-500 w-300px h-50px text-lg"
-          type="text"
-          onChange={event => {
-            setName(event.target.value);
-          }}
-        />
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-          onClick={deleteItem}
-        >
-          delete an item
-        </button>
-      </div>
-      <div>Player</div>
-    </div>
-  );
+    );
+  }
 }
