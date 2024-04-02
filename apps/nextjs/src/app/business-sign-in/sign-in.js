@@ -16,7 +16,7 @@ export default function SignUp() {
     e.preventDefault();
     try {
       const res = await fetch(
-        'http://localhost:3001/api/auth/user/adduserbusinessconn',
+        'http://localhost:3001/api/auth/business/add-connection',
         {
           method: 'POST',
           headers: {
