@@ -4,17 +4,26 @@ import Link from 'next/link';
 import React from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import CookieComponent from '/home/garrett/LargeProject/LargeProject/apps/nextjs/src/app/dashboard/components/CookieComponent.jsx';
 
 export default function SignUp() {
+
+
   const [businessId, setBusinessId] = useState('');
   const [userId, setUserId] = useState('');
   const [error, setError] = useState('');
 
   const router = useRouter();
 
+  const handleUserIdChange = userId => {
+    setUserId(userId);
+
+  }
+
   const handleSubmit = async e => {
     e.preventDefault();
     try {
+      console.log(userId);
       const res = await fetch(
         'http://localhost:3001/api/auth/business/add-connection',
         {
@@ -53,16 +62,15 @@ export default function SignUp() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
+
+      <CookieComponent
+        cookieName={'accessToken'}
+        onUserIdChange={handleUserIdChange}
+      />
+
       <h1 className="text-4xl font-bold mb-8">Connect to a Business</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <input
-          type="businessIdList"
-          placeholder="userID"
-          value={userId}
-          onChange={e => setUserId(e.target.value)}
-          className="p-2 border border-gray-300 rounded-md"
-        />
-
+        
         <input
           type="businessId"
           placeholder="businessID"
