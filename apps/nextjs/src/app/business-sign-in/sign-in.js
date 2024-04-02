@@ -74,6 +74,11 @@ export default function SignUp() {
           className="p-2 border border-gray-300 rounded-md"
         />
 
+        <CookieComponent
+        cookieName={'accessToken'}
+        onUserIdChange={handleUserIdChange}
+        />
+
         <button type="submit" className="bg-blue-500 text-white p-2 rounded-md">
           Connect
         </button>
