@@ -16,7 +16,7 @@ export default function SignUp() {
     try 
     {
       const res = await fetch(
-        'http://localhost:3001/api/auth/user/registerbusiness',
+        'http://localhost:3001/api/auth/business/register',
         {
           method: 'POST',
           headers: {
