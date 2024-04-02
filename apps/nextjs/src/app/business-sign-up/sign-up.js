@@ -13,7 +13,8 @@ export default function SignUp() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    try {
+    try 
+    {
       const res = await fetch(
         'http://localhost:3001/api/auth/user/registerbusiness',
         {
