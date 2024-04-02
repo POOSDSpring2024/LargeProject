@@ -32,11 +32,11 @@ export default function SignUp() {
       } else if (res == 400) {
         // If response is not ok, get error message from response body
         const { error } = await res.json();
-        console.log(error);
+        console.log(error + '400');
         setError(error);
       } else {
         const { error } = await res.json();
-        console.log(error);
+        console.log(error+ '4');
         setError(error);
       }
     } catch (error) {
