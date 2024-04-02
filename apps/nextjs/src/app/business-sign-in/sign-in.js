@@ -7,8 +7,6 @@ import { useRouter } from 'next/navigation';
 import CookieComponent from '/home/garrett/LargeProject/LargeProject/apps/nextjs/src/app/dashboard/components/CookieComponent.jsx';
 
 export default function SignUp() {
-
-
   const [businessId, setBusinessId] = useState('');
   const [userId, setUserId] = useState('');
   const [error, setError] = useState('');
@@ -17,8 +15,7 @@ export default function SignUp() {
 
   const handleUserIdChange = userId => {
     setUserId(userId);
-
-  }
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -62,7 +59,6 @@ export default function SignUp() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-
       <CookieComponent
         cookieName={'accessToken'}
         onUserIdChange={handleUserIdChange}
@@ -70,7 +66,6 @@ export default function SignUp() {
 
       <h1 className="text-4xl font-bold mb-8">Connect to a Business</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        
         <input
           type="businessId"
           placeholder="businessID"

@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'Slicer',
-  description: 'Inventorty management system'
+  description: 'Inventory management system'
 };
 
 export default function RootLayout({ children }) {
