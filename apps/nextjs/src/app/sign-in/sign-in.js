@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 export default function SignIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [businessIdList, setBusinessIdList] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = async e => {
@@ -20,18 +19,21 @@ export default function SignIn() {
       });
       if (res.ok) {
         const data = await res.json();
-        const { accessToken} = data;
+        const { accessToken, businessIdList} = data;
         const expires = new Date();
         expires.setTime(expires.getTime() + 3 * 24 * 60 * 60 * 1000);
         document.cookie = `accessToken=${accessToken};expires=${expires.toUTCString()};path=/`;
-        
-        if (sizeof(businessIdList.length < 1))   
+
+        if (businessIdList.length < 1)   
         {
             window.location.href = '/business-sign-in';
         }
-        
-        // Redirect to dashboard if login is successful
-        window.location.href = '/business-sign-in';
+
+        else
+        {
+          window.location.href = '/dashboard';
+        }
+
       } 
       else {
         // If response is not ok, get error message from response body
@@ -66,11 +68,6 @@ export default function SignIn() {
           value={password}
           onChange={e => setPassword(e.target.value)}
           className="p-2 border border-gray-300 rounded-md"
-        />
-
-        <CookieComponent
-        cookieName={'accessToken'}
-        onUserIdChange={setBusinessIdList}
         />
 
         <button type="submit" className="bg-blue-500 text-white p-2 rounded-md">

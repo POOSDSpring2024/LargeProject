@@ -59,9 +59,9 @@ export function Inventory() {
   if (businessId != '') {
     return (
       <div className="w-full h-screen grid grid-cols-[min-content_auto] grid-rows-[5fr_1fr]">
-        <div className="bg-green-500">
+        
           <SideNav />
-        </div>
+        
         <div className="justify-center flex-col items-center">
           <Table businessId={businessId} />
         </div>

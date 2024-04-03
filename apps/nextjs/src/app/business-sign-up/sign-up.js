@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CookieComponent from '/home/garrett/LargeProject/LargeProject/apps/nextjs/src/app/dashboard/components/CookieComponent.jsx';
+
 
 
 export default function SignUp() {
