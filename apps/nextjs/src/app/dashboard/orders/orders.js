@@ -20,7 +20,7 @@ export function Orders() {
         cookieName={'accessToken'}
         onUserIdChange={handleUserIdChange}
       />
-      <SideNav />
+      
     </div>
   );
 }
