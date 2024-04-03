@@ -20,7 +20,6 @@ export function Suppliers() {
         cookieName={'accessToken'}
         onUserIdChange={handleUserIdChange}
       />
-      <SideNav />
     </div>
   );
 }
