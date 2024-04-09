@@ -5,16 +5,24 @@ const portionInfoSchema = new mongoose.Schema({
   unitNumber: Number
 });
 
-const inventorySchema = new mongoose.Schema({
+const locationInventorySchema = new mongoose.Schema({
   portionNumber: Number,
   metaData: String
 });
 
 const locationLogSchema = new mongoose.Schema({
   locationName: String,
+  logReason: String,
   initialPortion: Number,
   finalPortion: Number,
-  updateDate: Date
+  updateDate: {
+    type: Date
+  }
+});
+//default: Date.now
+const locationBucketLogSchema = new mongoose.Schema({
+  locationBucket: String,
+  locationBucketLog: [locationLogSchema]
 });
 
 const distributorItemSchema = new mongoose.Schema({
@@ -22,61 +30,94 @@ const distributorItemSchema = new mongoose.Schema({
   distributorItemName: String,
   distributorItemPortion: Number,
   distributorItemCost: Number,
-  priorityChoice: Number
+  priorityChoice: {
+    type: Number,
+    default: 100
+  }
+});
+
+const distributorMetaDataSchema = new mongoose.Schema({
+  distributorName: String,
+  distributorDeadlineDate: String,
+  distributorDeliveryDate: String,
+  distributorMetaData: String
+});
+
+const locationMetaDataSchema = new mongoose.Schema({
+  locationName: String,
+  locationAddress: String,
+  locationMetaData: String
+});
+
+const itemSchema = new mongoose.Schema({
+  itemName: String,
+  portionInfoList: [portionInfoSchema],
+  usedInList: [
+    {
+      itemName: String,
+      unitCost: Number
+    }
+  ],
+  itemNeededList: [
+    {
+      itemName: String,
+      unitCost: Number
+    }
+  ],
+  locationItemList: [
+    {
+      locationName: String,
+      inventoryList: [locationInventorySchema]
+    }
+  ],
+  locationItemLog: [locationBucketLogSchema],
+  distributorItemList: [distributorItemSchema]
 });
 
 const businessSchema = new mongoose.Schema(
   {
-    businessName: {
-      type: String,
-      required: true
-    },
+    businessName: String,
     employeeIdList: [String],
-    itemList: [
-      {
-        itemName: String,
-        portionInfoList: [portionInfoSchema],
-        usedInList: [
-          {
-            itemName: String,
-            unitCost: Number
-          }
-        ],
-        itemNeededList: [
-          {
-            itemName: String,
-            unitCost: Number
-          }
-        ],
-        locationList: [
-          {
-            locationName: String,
-            inventoryList: [inventorySchema]
-          }
-        ],
-        locationLog: [locationLogSchema],
-        distributorItemList: [distributorItemSchema]
-      }
-    ],
-    distributorList: [
-      {
-        distributorName: String,
-        distributorDeadlineDate: String,
-        distributorDeliveryDate: String,
-        distributorMetaData: String
-      }
-    ],
-    locationList: [
-      {
-        locationName: String,
-        locationAddress: String,
-        locationMetaData: String
-      }
-    ]
+    itemList: [itemSchema],
+    distributorMetaDataList: [distributorMetaDataSchema],
+    locationMetaDataList: [locationMetaDataSchema]
   },
   { collection: 'businesses' }
 );
 
-const Business = mongoose.model('businesses', businessSchema);
+const Business = mongoose.model('Business', businessSchema);
+const Item = mongoose.model('Item', itemSchema);
+const PortionInfo = mongoose.model('PortionInfo', portionInfoSchema);
+const LocationInventory = mongoose.model(
+  'LocationInventory',
+  locationInventorySchema
+);
+const LocationBucketLog = mongoose.model(
+  'locationBucketLog',
+  locationBucketLogSchema
+);
+const LocationLog = mongoose.model('LocationLog', locationLogSchema);
+const DistributorItem = mongoose.model(
+  'DistributorItem',
+  distributorItemSchema
+);
+const DistributorMetaData = mongoose.model(
+  'distributorMetaData',
+  distributorMetaDataSchema
+);
+const LocationMetaData = mongoose.model(
+  'locationMetaData',
+  locationMetaDataSchema
+);
 
-module.exports = Business;
+module.exports = {
+  PortionInfo,
+  LocationInventory,
+  LocationBucketLog,
+  LocationLog,
+  DistributorItem,
+  DistributorMetaData,
+  LocationMetaData,
+  Item,
+  Business
+};

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import React from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -11,6 +12,7 @@ export default function SignUp() {
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [businessIdList, setBusinessIdList] = useState('');
+  const [error, setError] = useState('');
 
   const router = useRouter();
 
@@ -32,11 +34,26 @@ export default function SignUp() {
         })
       });
       if (res.ok) {
-        router.push('/dashboard');
+        router.push('/sign-in');
+      } else if (res == 400) {
+        // If response is not ok, get error message from response body
+        const { error } = await res.json();
+        console.log(error);
+        setError(error);
+      } else {
+        const { error } = await res.json();
+        console.log(error);
+        setError(error);
       }
     } catch (error) {
       console.error('An unexpected error happened:', error);
+      setError('An unexpected error occurred. Please try again later.');
     }
+  };
+
+  // Function to close the error popup
+  const closeErrorPopup = () => {
+    setError('');
   };
 
   return (
@@ -78,15 +95,11 @@ export default function SignUp() {
           onChange={e => setEmail(e.target.value)}
           className="p-2 border border-gray-300 rounded-md"
         />
-        <input
-          type="businessIdList"
-          placeholder="businessID"
-          value={businessIdList}
-          onChange={e => setBusinessIdList(e.target.value)}
-          className="p-2 border border-gray-300 rounded-md"
-        />
 
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded-md">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
+        >
           Sign Up
         </button>
       </form>
@@ -95,6 +108,20 @@ export default function SignUp() {
           Have an account? Login here
         </button>
       </Link>
+
+      {error && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-md">
+            <p className="text-red-500">{error}</p>
+            <button
+              onClick={closeErrorPopup}
+              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
