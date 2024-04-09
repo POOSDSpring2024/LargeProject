@@ -20,7 +20,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await fetch(
-        'http://172.20.10.10:3001/api/auth/user/login',
+        'http://172.27.112.45:3001/api/auth/user/login',
         {
           method: 'POST',
           headers: {
