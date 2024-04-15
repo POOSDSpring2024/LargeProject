@@ -19,6 +19,10 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const handleLogin = async () => {
     try {
+      console.log('username:', username);
+      console.log('password', password);
+
+      /*
       const response = await fetch(
         'http://172.27.112.45:3001/api/auth/user/login',
         {
@@ -39,7 +43,7 @@ export default function Login() {
       } else {
         const errorData = await response.json();
         Alert.alert('Login Failed', errorData.message);
-      }
+      }*/
     } catch (error) {
       console.error('Error:', error);
       Alert.alert('Error', 'An error occurred while logging in.');
@@ -48,16 +52,16 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-      <Link href="../" asChild>
-        <Pressable>
-          <Text style={styles.home}>Slicer</Text>
-        </Pressable>
-      </Link>
       <Text style={styles.title}>Login</Text>
+      <View style={styles.subTitleContainer}>
+        <Text style={styles.subTitle}>
+          Enter username and password to access acount
+        </Text>
+      </View>
       <View style={styles.inputView}>
         <TextInput
           style={styles.input}
-          placeholder="USERNAME"
+          placeholder="username"
           value={username}
           onChangeText={setUsername}
           autoCorrect={false}
@@ -65,7 +69,7 @@ export default function Login() {
         />
         <TextInput
           style={styles.input}
-          placeholder="PASSWORD"
+          placeholder="password"
           secureTextEntry
           value={password}
           onChangeText={setPassword}
@@ -74,12 +78,17 @@ export default function Login() {
         />
       </View>
       <View style={styles.buttonView}>
-        <Link href="./dashboard" asChild>
-          <Pressable style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
-          </Pressable>
-        </Link>
+        <Pressable style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Login</Text>
+        </Pressable>
       </View>
+      <Link href="./sign-up" asChild>
+        <Pressable>
+          <Text style={styles.link}>
+            Don't have an account? Create one here
+          </Text>
+        </Pressable>
+      </Link>
     </View>
   );
 }
@@ -90,14 +99,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+
   title: {
-    fontSize: 44,
-    fontWeight: 'bold'
-  },
-  home: {
-    fontSize: 64,
+    fontSize: 50,
     fontWeight: 'bold',
     color: '#1877F2'
+  },
+  subTitleContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '70%',
+    padding: 10
+  },
+  subTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'center'
   },
   inputView: {
     gap: 15,
@@ -136,5 +154,10 @@ const styles = StyleSheet.create({
     color: 'gray',
     fontSize: 13,
     marginBottom: 6
+  },
+  link: {
+    fontSize: 14,
+    color: '#1877F2',
+    padding: 10
   }
 });

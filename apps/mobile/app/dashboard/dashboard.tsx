@@ -1,21 +1,11 @@
-import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import { Pressable } from '@gluestack-ui/themed';
 import { Link } from 'expo-router';
 import React from 'react';
 import { Toggle } from '@ui-kitten/components';
 
 export default function Dashboard() {
-  const [checked, setChecked] = React.useState(false);
-
-  const onCheckedChange = (isChecked): void => {
-    setChecked(isChecked);
-  };
-  return (
-    <View style={styles.container}>
-      <Toggle checked={checked} onChange={onCheckedChange}>
-        {`Checked: ${checked}`}
-      </Toggle>
-    </View>
-  );
+  return <View style={styles.container}></View>;
 }
 
 const styles = StyleSheet.create({

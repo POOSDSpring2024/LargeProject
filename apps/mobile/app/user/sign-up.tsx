@@ -23,7 +23,7 @@ export default function SignUp() {
 
   const handleSignUp = async () => {
     try {
-      const response = await fetch(
+      /*onst response = await fetch(
         'http://172.27.112.45:3001/api/auth/user/signup',
         {
           method: 'POST',
@@ -48,7 +48,7 @@ export default function SignUp() {
       } else {
         const errorData = await response.json();
         Alert.alert('Registration Failed', errorData.message);
-      }
+      }*/
     } catch (error) {
       console.error('Error:', error);
       Alert.alert('Error', 'An error occurred while Signing up.');
@@ -57,12 +57,12 @@ export default function SignUp() {
 
   return (
     <View style={styles.container}>
-      <Link href="../" asChild>
-        <Pressable>
-          <Text style={styles.home}>Slicer</Text>
-        </Pressable>
-      </Link>
       <Text style={styles.title}>Sign Up</Text>
+      <View style={styles.subTitleContainer}>
+        <Text style={styles.subTitle}>
+          Enter all fields to create an acount
+        </Text>
+      </View>
       <View style={styles.inputView}>
         <TextInput
           style={styles.input}
@@ -77,6 +77,14 @@ export default function SignUp() {
           placeholder="Last Name"
           value={lastName}
           onChangeText={setLastname}
+          autoCorrect={false}
+          autoCapitalize="none"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
           autoCorrect={false}
           autoCapitalize="none"
         />
@@ -97,20 +105,17 @@ export default function SignUp() {
           autoCorrect={false}
           autoCapitalize="none"
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          autoCorrect={false}
-          autoCapitalize="none"
-        />
       </View>
       <View style={styles.buttonView}>
         <Pressable style={styles.button} onPress={handleSignUp}>
           <Text style={styles.buttonText}>Register</Text>
         </Pressable>
       </View>
+      <Link href="./login" asChild>
+        <Pressable>
+          <Text style={styles.link}>Already have an account? Login here</Text>
+        </Pressable>
+      </Link>
     </View>
   );
 }
@@ -122,13 +127,21 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    fontSize: 44,
-    fontWeight: 'bold'
-  },
-  home: {
-    fontSize: 64,
+    fontSize: 50,
     fontWeight: 'bold',
     color: '#1877F2'
+  },
+  subTitleContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '70%',
+    padding: 10
+  },
+  subTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'center'
   },
   inputView: {
     gap: 15,
@@ -167,5 +180,10 @@ const styles = StyleSheet.create({
     color: 'gray',
     fontSize: 13,
     marginBottom: 6
+  },
+  link: {
+    fontSize: 14,
+    color: '#1877F2',
+    padding: 10
   }
 });
