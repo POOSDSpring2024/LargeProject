@@ -1,15 +1,19 @@
 import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import { Link } from 'expo-router';
+import React from 'react';
+import { Toggle } from '@ui-kitten/components';
 
 export default function Dashboard() {
+  const [checked, setChecked] = React.useState(false);
+
+  const onCheckedChange = (isChecked): void => {
+    setChecked(isChecked);
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Dashboard</Text>
-      <Link href="../../" asChild>
-        <Pressable style={styles.button} onPress={() => console.log('Pressed')}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </Pressable>
-      </Link>
+      <Toggle checked={checked} onChange={onCheckedChange}>
+        {`Checked: ${checked}`}
+      </Toggle>
     </View>
   );
 }

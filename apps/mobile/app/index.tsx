@@ -11,7 +11,7 @@ export default function Page() {
             <Text style={styles.subtitle}>Login</Text>
           </Pressable>
         </Link>
-        <Link style={styles.link} href="./user/sign-up" asChild>
+        <Link style={styles.link} href="./dashboard/dashboard" asChild>
           <Pressable>
             <Text style={styles.subtitle}>Sign Up</Text>
           </Pressable>
