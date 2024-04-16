@@ -1,6 +1,7 @@
 'use client';
 import SideNav from './components/side-nav';
 import CookieComponent from './components/CookieComponent';
+//import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { useState } from 'react';
 const userId = <CookieComponent cookieName={'accessToken'} />;
