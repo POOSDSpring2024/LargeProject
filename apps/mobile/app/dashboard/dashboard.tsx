@@ -5,9 +5,11 @@ import React, { useState, useEffect } from 'react';
 
 export default function Dashboard() {
   const [userId, setUserId] = useState(null);
-  const handleUserIdChange = userId => {
-    setUserId(userId);
+
+  const handleUserIdReceived = receivedUserId => {
+    setUserId(receivedUserId);
   };
+
   const handleLogout = async () => {
     try {
       const response = await fetch(
@@ -35,12 +37,18 @@ export default function Dashboard() {
 
   return (
     <View style={styles.container}>
-      <CookieComponent />
+      <CookieComponent onUserIdReceived={handleUserIdReceived} />
       <View style={styles.buttonView}>
         <Pressable style={styles.button} onPress={handleLogout}>
           <Text style={styles.buttonText}>Logout</Text>
         </Pressable>
       </View>
+      {userId && (
+        <View>
+          <Text>User ID: {userId}</Text>
+          {/* Add more content based on userId */}
+        </View>
+      )}
     </View>
   );
 }

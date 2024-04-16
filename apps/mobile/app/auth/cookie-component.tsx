@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export function CookieComponent() {
+export function CookieComponent({ onUserIdReceived }) {
   const getAccessToken = async () => {
     try {
       const value = await AsyncStorage.getItem('accessToken');
@@ -28,6 +28,7 @@ export function CookieComponent() {
       const responseData = await response.json();
       const { status, userId } = responseData;
       console.log('user:', userId);
+      onUserIdReceived(userId);
       return { status, userId };
     } else {
       //nothing returned (wont happen with how api is setup but just in case)
