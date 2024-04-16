@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CookieComponent } from '../auth/cookie-component';
 import {
   View,
   Text,
@@ -14,99 +14,72 @@ import {
   TextInput
 } from 'react-native';
 
-export default function Login() {
-  const [click, setClick] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const storeAccessToken = async (accessToken, expires) => {
-    try {
-      await AsyncStorage.setItem('accessToken', accessToken);
-      await AsyncStorage.setItem('tokenExpires', expires.toISOString());
-    } catch (error) {
-      console.error('Error storing access token:', error);
-    }
+export default function JoinBusiness() {
+  const [userId, setUserId] = useState(null);
+  const [businessId, setBusinessId] = useState('');
+
+  const handleUserIdReceived = receivedUserId => {
+    setUserId(receivedUserId);
   };
-  const handleLogin = async () => {
+
+  const handleSubmit = async () => {
     try {
-      console.log('username:', username);
-      console.log('password', password);
+      console.log('User Id:', userId);
+      console.log('Business Id', businessId);
 
       const response = await fetch(
-        'http://localhost:3001/api/auth/user/login',
+        'http://localhost:3001/api/auth/business/add-connection',
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ username, password })
+          body: JSON.stringify({ userId, businessId })
         }
       );
 
       if (response.ok) {
         const data = await response.json();
-        //Alert.alert('Login Successful');
-        const { accessToken, businessIdList } = data;
-
-        // Fix authentication
-        const expires = new Date();
-        expires.setTime(expires.getTime() + 3 * 24 * 60 * 60 * 1000);
-        storeAccessToken(accessToken, expires);
-        if (businessIdList.length > 0) {
-          router.push('../dashboard/dashboard');
-        } else {
-          router.push('../businessAuth/business-join');
-        }
+        router.push('../dashboard/dashboard');
       } else {
         const errorData = await response.json();
-        Alert.alert('Login Failed', errorData.message);
+        Alert.alert('Failed to join business', errorData.message);
       }
     } catch (error) {
       console.error('Error:', error);
-      Alert.alert('Error', 'An error occurred while logging in.');
+      Alert.alert('Error', 'An error occurred while joining business.');
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <CookieComponent onUserIdReceived={handleUserIdReceived} />
+      <Text style={styles.title}>Join Business</Text>
       <View style={styles.subTitleContainer}>
         <Text style={styles.subTitle}>
-          Enter username and password to access acount
+          Enter business ID to join the companies account
         </Text>
       </View>
       <View style={styles.inputView}>
         <TextInput
           style={styles.input}
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
-          autoCorrect={false}
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
+          placeholder="Business ID"
           secureTextEntry
-          value={password}
-          onChangeText={setPassword}
+          value={businessId}
+          onChangeText={setBusinessId}
           autoCorrect={false}
           autoCapitalize="none"
         />
       </View>
       <View style={styles.buttonView}>
-        <Pressable style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
+        <Pressable style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Submit</Text>
         </Pressable>
       </View>
-      <Link href="./forgot-password" asChild>
-        <Pressable>
-          <Text style={styles.link}>Forgot Password</Text>
-        </Pressable>
-      </Link>
-      <Link href="./sign-up" asChild>
+      <Link href="./business-create" asChild>
         <Pressable>
           <Text style={styles.link}>
-            Don't have an account? Create one here
+            Don't have a business yet? Create one here
           </Text>
         </Pressable>
       </Link>

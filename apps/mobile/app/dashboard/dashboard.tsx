@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import { CookieComponent } from '../auth/cookie-component';
 import { Link, router } from 'expo-router';
 import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Dashboard() {
   const [userId, setUserId] = useState(null);
@@ -23,9 +24,8 @@ export default function Dashboard() {
       );
 
       if (response.ok) {
-        // Clear the cookie upon successful logout
-        //document.cookie = ('accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'); // Change yourCookieName to the name of your cookie
-        // Redirect to login page or any other appropriate page after successful logout
+        const keysToRemove = ['accessToken', 'tokenExpires'];
+        await AsyncStorage.multiRemove(keysToRemove);
         router.replace('/user/login'); // Adjust the path to your login page
       } else {
         console.error('Logout failed');
