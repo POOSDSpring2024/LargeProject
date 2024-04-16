@@ -13,28 +13,19 @@ import {
   TextInput
 } from 'react-native';
 
-export default function SignUp() {
-  const [click, setClick] = useState(false);
-  const [firstName, setFirstname] = useState('');
-  const [lastName, setLastname] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+export default function ForgotPassword() {
   const [email, setEmail] = useState('');
 
-  const handleSignUp = async () => {
+  const handleSubmit = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3001/api/auth/user/signup',
+        'http://localhost:3001/api/auth/user/forgot-password',
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            firstName,
-            lastName,
-            username,
-            password,
             email
           })
         }
@@ -42,43 +33,24 @@ export default function SignUp() {
 
       if (response.ok) {
         const data = await response.json();
-        //Alert.alert('Registration Successful');
+        Alert.alert('Email Sent');
         router.push('./login');
       } else {
         const errorData = await response.json();
-        Alert.alert('Registration Failed', errorData.message);
+        Alert.alert('Reset Password Failed', errorData.message);
       }
     } catch (error) {
       console.error('Error:', error);
-      Alert.alert('Error', 'An error occurred while Signing up.');
+      Alert.alert('Error', 'An error occurred while sending reset email.');
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
       <View style={styles.subTitleContainer}>
-        <Text style={styles.subTitle}>
-          Enter all fields to create an acount
-        </Text>
+        <Text style={styles.subTitle}>Enter email to reset password</Text>
       </View>
       <View style={styles.inputView}>
-        <TextInput
-          style={styles.input}
-          placeholder="First Name"
-          value={firstName}
-          onChangeText={setFirstname}
-          autoCorrect={false}
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Last Name"
-          value={lastName}
-          onChangeText={setLastname}
-          autoCorrect={false}
-          autoCapitalize="none"
-        />
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -87,34 +59,12 @@ export default function SignUp() {
           autoCorrect={false}
           autoCapitalize="none"
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
-          autoCorrect={false}
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-          autoCorrect={false}
-          autoCapitalize="none"
-        />
       </View>
       <View style={styles.buttonView}>
-        <Pressable style={styles.button} onPress={handleSignUp}>
-          <Text style={styles.buttonText}>Register</Text>
+        <Pressable style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Submit</Text>
         </Pressable>
       </View>
-      <Link href="./login" asChild>
-        <Pressable>
-          <Text style={styles.link}>Already have an account? Login here</Text>
-        </Pressable>
-      </Link>
     </View>
   );
 }

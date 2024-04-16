@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   View,
   Text,
@@ -17,14 +18,21 @@ export default function Login() {
   const [click, setClick] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const storeAccessToken = async (accessToken, expires) => {
+    try {
+      await AsyncStorage.setItem('accessToken', accessToken);
+      await AsyncStorage.setItem('tokenExpires', expires.toISOString());
+    } catch (error) {
+      console.error('Error storing access token:', error);
+    }
+  };
   const handleLogin = async () => {
     try {
       console.log('username:', username);
       console.log('password', password);
 
-      /*
       const response = await fetch(
-        'http://172.27.112.45:3001/api/auth/user/login',
+        'http://localhost:3001/api/auth/user/login',
         {
           method: 'POST',
           headers: {
@@ -36,14 +44,18 @@ export default function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        Alert.alert('Login Successful');
+        //Alert.alert('Login Successful');
+        const { accessToken } = data;
 
-        // send user to dashboard page
-        // Handle successful login (e.g., save token to AsyncStorage)
+        // Fix authentication
+        const expires = new Date();
+        expires.setTime(expires.getTime() + 3 * 24 * 60 * 60 * 1000);
+        storeAccessToken(accessToken, expires);
+        router.push('../dashboard/dashboard');
       } else {
         const errorData = await response.json();
         Alert.alert('Login Failed', errorData.message);
-      }*/
+      }
     } catch (error) {
       console.error('Error:', error);
       Alert.alert('Error', 'An error occurred while logging in.');
@@ -61,7 +73,7 @@ export default function Login() {
       <View style={styles.inputView}>
         <TextInput
           style={styles.input}
-          placeholder="username"
+          placeholder="Username"
           value={username}
           onChangeText={setUsername}
           autoCorrect={false}
@@ -69,7 +81,7 @@ export default function Login() {
         />
         <TextInput
           style={styles.input}
-          placeholder="password"
+          placeholder="Password"
           secureTextEntry
           value={password}
           onChangeText={setPassword}
@@ -82,6 +94,11 @@ export default function Login() {
           <Text style={styles.buttonText}>Login</Text>
         </Pressable>
       </View>
+      <Link href="./forgot-password" asChild>
+        <Pressable>
+          <Text style={styles.link}>Forgot Password</Text>
+        </Pressable>
+      </Link>
       <Link href="./sign-up" asChild>
         <Pressable>
           <Text style={styles.link}>
