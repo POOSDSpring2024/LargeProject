@@ -50,7 +50,7 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3001/api/auth/user/logout',
+        'https://slicer-backend.vercel.app/api/auth/user/logout',
         {
           method: 'POST',
           headers: {
@@ -73,7 +73,7 @@ export default function Dashboard() {
 
   const getBusinessIdList = async () => {
     const response = await fetch(
-      'http://localhost:3001/api/auth/user/user-info?id=' + userId,
+      'https://slicer-backend.vercel.app/api/auth/user/user-info?id=' + userId,
       {
         method: 'GET',
         headers: {
@@ -109,7 +109,7 @@ export default function Dashboard() {
       try {
         if (businessId) {
           const response = await fetch(
-            `http://localhost:3001/api/crud/business/item-list/read-all/?businessId=${businessId}`,
+            `https://slicer-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=${businessId}`,
             {
               method: 'POST',
               headers: {

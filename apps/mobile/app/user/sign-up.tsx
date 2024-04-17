@@ -24,7 +24,7 @@ export default function SignUp() {
   const handleSignUp = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3001/api/auth/user/signup',
+        'https://slicer-backend.vercel.app/api/auth/user/signup',
         {
           method: 'POST',
           headers: {

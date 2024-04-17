@@ -22,7 +22,7 @@ export default function CreateBusiness() {
       console.log('business name:', businessName);
 
       const response = await fetch(
-        'http://localhost:3001/api/auth/business/register',
+        'https://slicer-backend.vercel.app/api/auth/business/register',
         {
           method: 'POST',
           headers: {

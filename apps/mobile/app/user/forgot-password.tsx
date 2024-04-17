@@ -9,7 +9,6 @@ import {
   Image,
   Pressable,
   SafeAreaView,
-  Switch,
   TextInput
 } from 'react-native';
 
@@ -19,7 +18,7 @@ export default function ForgotPassword() {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3001/api/auth/user/forgot-password',
+        'https://slicer-backend.vercel.app/api/auth/user/forgot-password',
         {
           method: 'POST',
           headers: {

@@ -32,7 +32,7 @@ export default function Login() {
       console.log('password', password);
 
       const response = await fetch(
-        'http://localhost:3001/api/auth/user/login',
+        'https://slicer-backend.vercel.app/api/auth/user/login',
         {
           method: 'POST',
           headers: {
