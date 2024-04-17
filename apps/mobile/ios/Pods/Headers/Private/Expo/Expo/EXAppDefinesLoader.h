@@ -1,0 +1,1 @@
+../../../../../../../../node_modules/.pnpm/expo@50.0.15_@babel+core@7.23.3_@react-native+babel-preset@0.73.21/node_modules/expo/ios/EXAppDefinesLoader.h
