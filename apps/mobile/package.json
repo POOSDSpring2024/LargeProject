@@ -5,8 +5,8 @@
   "scripts": {
     "start": "expo start",
     "dev": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "@ui-kitten/components": "^5.3.1",
     "Ionicons": "link:@expo/vector-icons/Ionicons",
     "axios": "^1.6.7",
+    "eas-cli": "^7.8.2",
     "expo": "~50.0.15",
     "expo-constants": "~15.4.5",
     "expo-linking": "~6.2.2",
