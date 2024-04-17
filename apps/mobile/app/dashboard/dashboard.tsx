@@ -1,4 +1,6 @@
 import { CookieComponent } from '../auth/cookie-component';
+import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { Link, router } from 'expo-router';
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -137,7 +139,7 @@ export default function Dashboard() {
       <TopNavBar onLogout={handleLogout} onAccountPress={handleAccountPress} />
       <View style={styles.buttonView}>
         <Pressable style={styles.button} onPress={handleAddPress}>
-          <Text style={styles.buttonText}>Add</Text>
+          <Ionicons name="add" size={34} color="white" />
         </Pressable>
       </View>
       <View style={{ flex: 1, paddingHorizontal: 8 }}>

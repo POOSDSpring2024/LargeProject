@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface TopNavBarProps {
   onLogout: () => void; // Function to handle logout action
@@ -11,10 +13,10 @@ const TopNavBar: React.FC<TopNavBarProps> = ({ onLogout, onAccountPress }) => {
       <Text style={styles.title}>Slicer</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={onAccountPress}>
-          <Text style={styles.buttonText}>Account</Text>
+          <MaterialCommunityIcons name="account" size={20} color="white" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={onLogout}>
-          <Text style={styles.buttonText}>Logout</Text>
+          <AntDesign name="logout" size={20} color="white" />
         </TouchableOpacity>
       </View>
     </View>
