@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   FlatList,
   Text,
@@ -27,7 +28,10 @@ interface MyListComponentProps {
   data: Item[]; // Array of items with 'itemName' property
 }
 
-const MyListComponent: React.FC<MyListComponentProps> = ({ data }) => {
+const MyListComponent: React.FC<MyListComponentProps> = ({
+  data,
+  onEditItemPress
+}) => {
   //const [portionName, setPortionName] = useState('');
   //const [portionValue, setPortionValue] = useState('');
   //const [locationName, setLocationName] = useState('');
@@ -35,6 +39,7 @@ const MyListComponent: React.FC<MyListComponentProps> = ({ data }) => {
     //setLocationName();
     //await GetLocations(data.businessId, data.itemList.itemName)
     console.log('Edit Item:', itemName);
+    onEditItemPress();
     // Open the edit item modal
     //return(
     //<EditItemModal isVisible={isModalVisible} onClose={handleCloseModal} onAddItem={handleEditPress} />

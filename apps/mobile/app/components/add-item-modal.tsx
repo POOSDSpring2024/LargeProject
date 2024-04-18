@@ -2,17 +2,35 @@ import { set } from '@gluestack-style/react';
 import React, { useState } from 'react';
 import { View, Modal, Text, TextInput, Button } from 'react-native';
 
-const AddItemModal = ({ isVisible, onClose, onAddItem }) => {
+const AddItemModal = ({ isVisible, onClose, onAddItem, businessId }) => {
   const [itemName, setItemName] = useState('');
   const [locationName, setLocationName] = useState('');
   const [portionName, setPortionName] = useState('');
   const [portionValue, setPortionValue] = useState('');
 
-  const handleAddItem = () => {
-    // Validate input fields
-    if (!itemName.trim()) {
-      alert('Please enter item name');
-      return;
+  const handleAddItem = async () => {
+    const requestBody = {
+      itemName: itemName
+    };
+    console.log('Request Body:', requestBody);
+    try {
+      const response = await fetch(
+        'https://slicer-backend.vercel.app/api/crud/business/item-list/create?businessId=' +
+          businessId,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
+        }
+      );
+      console.log('BusinessID', businessId);
+      if (response.ok) {
+        console.log(response);
+      }
+    } catch (error) {
+      console.error('Error in fetchPortionList:', error);
     }
 
     // Add item to inventory

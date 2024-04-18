@@ -36,6 +36,7 @@ export default function Dashboard() {
   const [itemList, setItemList] = useState([]);
   const [currectItem, setCurrentItem] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   const handleUserIdReceived = receivedUserId => {
     setUserId(receivedUserId);
@@ -49,6 +50,12 @@ export default function Dashboard() {
   };
   const handleCloseModal = () => {
     setIsModalVisible(false); // Set modal visibility to false to hide the modal
+  };
+  const handleOpenEditModal = () => {
+    setIsEditModalVisible(true);
+  };
+  const handleCloseEditModal = () => {
+    setIsEditModalVisible(false);
   };
 
   const handleAddPress = newItem => {
@@ -113,6 +120,7 @@ export default function Dashboard() {
     };
 
     fetchBusinessId();
+    //storeAccessToken(data[0]);
   }, [userId]);
 
   useEffect(() => {
@@ -142,72 +150,6 @@ export default function Dashboard() {
     };
     fetchItemList();
   }, [businessId]);
-  /*
-  useEffect(() => {
-    const combineData = async () => {
-      if (itemList.length === 0) return;
-      console.log('Item List:', itemList.length);
-      for (let i = 0; i < itemList.length; i++) {
-        console.log('Item Name:', itemList[i].itemName);
-        setCurrentItem(itemList[i].itemName);
-        const portionData = await GetPortions(businessId, currectItem);
-        const locationData = await GetLocations(businessId, currectItem);
-        setCurrentItem(itemList[i].itemName);
-      }
-    };
-    combineData();
-  }, [itemList]);
-
-  /*useEffect(() => {
-    const fetchPortion = async () => {
-      try {
-        if (currectItem !== '') {
-          const data = await GetPortions(businessId, currectItem);
-        }
-      } catch (error) {
-        console.error('Error fetching Data:', error);
-      }
-    };
-    fetchPortion();
-  }, [currectItem]);
-
-  useEffect(() => {
-    const fetchLocation = async () => {
-      try {
-        if (currectItem !== '') {
-          const data = await GetLocations(businessId, currectItem);
-        }
-      } catch (error) {
-        console.error('Error fetching Data:', error);
-      }
-    };
-    fetchLocation();
-  }, [currectItem]);
-  /*
-  const fetchData = async () => {
-    try {
-      if (businessId) {
-        await GetItems(businessId);
-      }
-    } catch (error) {
-      console.error('Error fetching Data:', error);
-    }
-  };
-  fetchData();*/
-
-  /* useEffect(() => {
-    async function fetchPortion() {
-      if (businessId) {
-        await GetPortions(businessId, 'pizza');
-        await GetLocations(businessId, 'pizza');
-      }
-    }
-    fetchPortion();
-  }, [businessId]);*/
-  const data = {
-    itemList: itemList,
-    businessId: businessId
-  };
 
   return (
     <View style={styles.container}>
@@ -218,20 +160,28 @@ export default function Dashboard() {
           <Ionicons name="add" size={34} color="white" />
         </Pressable>
       </View>
-
-      <AddItemModal
-        isVisible={isModalVisible}
-        onClose={handleCloseModal}
-        onAddItem={handleAddPress}
-      />
-      {/*<EditItemModal
-        isVisible={isModalVisible}
-        onClose={handleCloseModal}
-        onAddItem={handleEditPress}
-  />*/}
+      {businessId && (
+        <>
+          <AddItemModal
+            isVisible={isModalVisible}
+            onClose={handleCloseModal}
+            onAddItem={handleAddPress}
+            businessId={businessId}
+          />
+          <EditItemModal
+            isVisible={isEditModalVisible}
+            onClose={handleCloseEditModal}
+            onAddItem={handleEditPress}
+            businessId={businessId}
+          />
+        </>
+      )}
 
       <View style={{ flex: 1, paddingHorizontal: 8 }}>
-        <MyListComponent data={itemList} />
+        <MyListComponent
+          data={itemList}
+          onEditItemPress={handleOpenEditModal}
+        />
       </View>
     </View>
   );

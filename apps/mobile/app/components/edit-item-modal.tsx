@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import { View, Modal, Text, TextInput, Button } from 'react-native';
 
-const EditItemModal = ({ isVisible, onClose, onAddItem }) => {
+const EditItemModal = ({ isVisible, onClose, onAddItem, businessId }) => {
   const [itemName, setItemName] = useState('');
   const [itemDescription, setItemDescription] = useState('');
 
-  const handleAddItem = () => {
+  const handleEditItem = () => {
     // Validate input fields
-    if (!itemName.trim()) {
-      alert('Please enter item name');
-      return;
-    }
 
     // Add item to inventory
     onAddItem({ name: itemName.trim(), description: itemDescription.trim() });
@@ -49,7 +45,7 @@ const EditItemModal = ({ isVisible, onClose, onAddItem }) => {
             width: 250
           }}
         />
-        <Button title="Save" onPress={handleAddItem} />
+        <Button title="Save" onPress={handleEditItem} />
         <Button title="Cancel" onPress={onClose} />
       </View>
     </Modal>
