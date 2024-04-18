@@ -10,7 +10,7 @@ import {
 export function Content() {
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex flex-col items-center pt-36">
+      <div className="flex flex-col items-center pt-32">
         {/*Fix width */}
         <h1 className="text-black font-bold text-5xl max-w-l">
           Automate Restocks, Cut Costs, and Improve Productivity
