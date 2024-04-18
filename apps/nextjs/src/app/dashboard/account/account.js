@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import SideNav from '../components/side-nav';
 import CookieComponent from '../components/CookieComponent';
 import React from 'react';
@@ -15,14 +15,6 @@ import {
 
 export function Account() {
   const [userId, setUserId] = useState(null);
-  const [isSideNavOpen, setIsSideNavOpen] = useState(true);
-
-  const handleSideNavOpen = openState => {
-    setIsSideNavOpen(openState);
-    console.log(`openState:${openState}`);
-    // Adjust the main page layout based on the open state
-    // For example, you can set the left margin of the main page here
-  };
 
   // Function to handle userId change
   const handleUserIdChange = userId => {
@@ -37,7 +29,7 @@ export function Account() {
           cookieName={'accessToken'}
           onUserIdChange={handleUserIdChange}
         />
-        <SideNav openCallback={handleSideNavOpen} />
+        <SideNav />
       </div>
       <div className="flex flex-col">
         {/* Right Section (Card Components) */}

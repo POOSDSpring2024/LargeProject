@@ -11,6 +11,9 @@ import Distributor from '../components/Distributor';
 import DistributorPopup from '../components/DistributorPopup';
 import LocationTotalCount from '../components/LocationTotalCount';
 import DropdownSelection from '../components/DropdownSelection';
+import PortionInfo from '../components/PortionInfo';
+import ItemsNeeded from '../components/ItemsNeeded';
+import ItemsUsedIn from '../components/ItemsUsedIn';
 // import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 export function UpdateByItem() {
@@ -43,6 +46,20 @@ export function UpdateByItem() {
   const [deleteInventoryPopup, setDeleteInventoryPopup] = useState('');
   const [selectedItem, setSelectedItem] = useState({});
   const [isSideNavOpen, setIsSideNavOpen] = useState(true);
+  const [openPortionInfo, setOpenPortionInfo] = useState(false);
+  const [openItemNeeded, setOpenItemNeeded] = useState(false);
+  const [openItemUsedIn, setOpenItemUsedIn] = useState(false);
+  const [itemPortionMap, setItemPortionMap] = useState([]);
+  const [itemsNeededMap, setItemsNeededMap] = useState({});
+  const [itemsUsedInMap, setItemsUsedInMap] = useState({});
+  const [editPortionInfo, setEditPortionInfo] = useState('');
+  const [editInventoryUsedInPopup, setEditInventoryUsedInPopup] = useState('');
+  const [editInventoryNeededInPopup, setEditInventoryNeededInPopup] =
+    useState('');
+  const [deletePortionPopup, setdeletePortionPopup] = useState('');
+  const [deletePopup, setDeletePopup] = useState('');
+  const [addPortionPopup, setAddPortionPopup] = useState('');
+  useState('');
 
   const handleSideNavOpen = openState => {
     setIsSideNavOpen(openState);
