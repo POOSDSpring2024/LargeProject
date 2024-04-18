@@ -1,25 +1,41 @@
 import React, { useState } from 'react';
 import { View, Modal, Text, TextInput, Button } from 'react-native';
 
-const EditItemModal = ({ isVisible, onClose, onAddItem, businessId }) => {
-  const [itemName, setItemName] = useState('');
+const EditItemModal = ({ isVisible, onClose, businessId, itemName }) => {
+  const [newItemName, setNewItemName] = useState('');
+  //const [oldItemName, setOldItemName] = useState('');
   const [locationName, setLocationName] = useState('');
   const [portionName, setPortionName] = useState('');
   const [portionValue, setPortionValue] = useState('');
 
-  const handleEditItem = () => {
-    // Validate input fields
+  const handleEditItem = async () => {
+    const requestBody = {
+      itemName: itemName,
+      newItemName: setNewItemName
+    };
+    try {
+      const response = await fetch(
+        'https://slicer-backend.vercel.app/api/crud/business/item-list/update-name?businessId=' +
+          businessId,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
+        }
+      );
+      if (response.ok) {
+        console.log('Update successful');
+      }
+    } catch (error) {
+      console.error('Error in update item:', error);
+    }
 
     // Add item to inventory
-    onAddItem({
-      name: itemName.trim(),
-      location: locationName.trim(),
-      portionName: portionName.trim(),
-      portionValue: portionValue.trim()
-    });
 
     // Reset input fields and close modal
-    setItemName('');
+    setNewItemName('');
     setLocationName('');
     setPortionName('');
     setPortionValue('');
@@ -33,7 +49,7 @@ const EditItemModal = ({ isVisible, onClose, onAddItem, businessId }) => {
         <TextInput
           placeholder="Item Name"
           value={itemName}
-          onChangeText={setItemName}
+          onChangeText={setNewItemName}
           style={{
             borderWidth: 1,
             borderColor: 'gray',

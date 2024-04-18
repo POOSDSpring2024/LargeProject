@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import EditItemModal from './edit-item-modal';
 import GetLocations from './get-locations';
+import { set } from '@gluestack-style/react';
 
 //const [portionName, setPortionName] = useState('');
 //const [portionValue, setPortionValue] = useState('');
@@ -34,9 +35,18 @@ const MyListComponent: React.FC<MyListComponentProps> = ({
   onEditItemPress,
   businessId
 }) => {
+  const [selectedItemName, setSelectedItemName] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false);
   //const [portionName, setPortionName] = useState('');
   //const [portionValue, setPortionValue] = useState('');
   const [locationName, setLocationName] = useState('');
+  const handleEditPress = async itemName => {
+    setSelectedItemName(itemName);
+    setIsModalVisible(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
   const handleDeletePress = async itemName => {
     const firstRequestBody = {
       itemName: itemName
@@ -93,16 +103,7 @@ const MyListComponent: React.FC<MyListComponentProps> = ({
       console.error('Error in delete:', error);
     }
   };
-  const handleEditPress = async itemName => {
-    //setLocationName();
-    //await GetLocations(data.businessId, data.itemList.itemName)
-    console.log('Edit Item:', itemName);
-    onEditItemPress();
-    // Open the edit item modal
-    //return(
-    //<EditItemModal isVisible={isModalVisible} onClose={handleCloseModal} onAddItem={handleEditPress} />
-    //)
-  };
+
   // Function to render each item
   const renderItem = ({ item }: { item: Item }) => (
     <View style={[styles.itemContainer, styles.itemBorder]}>
@@ -125,11 +126,19 @@ const MyListComponent: React.FC<MyListComponentProps> = ({
   );
 
   return (
-    <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={item => item.itemName} // Use itemName as the unique key
-    />
+    <>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={item => item.itemName} // Use itemName as the unique key
+      />
+      <EditItemModal
+        isVisible={isModalVisible}
+        onClose={handleCloseModal}
+        itemName={selectedItemName}
+        businessId={businessId}
+      />
+    </>
   );
 };
 const styles = StyleSheet.create({

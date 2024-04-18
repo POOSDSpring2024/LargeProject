@@ -168,12 +168,12 @@ export default function Dashboard() {
             onAddItem={handleAddPress}
             businessId={businessId}
           />
-          <EditItemModal
+          {/*<EditItemModal
             isVisible={isEditModalVisible}
             onClose={handleCloseEditModal}
             onAddItem={handleEditPress}
             businessId={businessId}
-          />
+      />*/}
 
           <View style={{ flex: 1, paddingHorizontal: 8 }}>
             <MyListComponent
