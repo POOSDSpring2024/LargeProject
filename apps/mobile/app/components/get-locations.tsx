@@ -25,7 +25,6 @@ export default function GetLocations(businessId, itemName) {
       const data = await response.json();
       const fieldValues = data.outputList[0];
       return fieldValues;
-      console.log('There should be some location data here', fieldValues);
     } catch (error) {
       console.error('Error in fetchPortionList:', error);
     }

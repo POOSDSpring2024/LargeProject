@@ -101,7 +101,7 @@ const AddItemModal = ({ isVisible, onClose, onAddItem, businessId }) => {
             width: 250
           }}
         />
-        <Button title="Save" onPress={handleAddItem} />
+        <Button title="Add" onPress={handleAddItem} />
         <Button title="Cancel" onPress={onClose} />
       </View>
     </Modal>

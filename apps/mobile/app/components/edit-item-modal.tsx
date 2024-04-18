@@ -3,24 +3,33 @@ import { View, Modal, Text, TextInput, Button } from 'react-native';
 
 const EditItemModal = ({ isVisible, onClose, onAddItem, businessId }) => {
   const [itemName, setItemName] = useState('');
-  const [itemDescription, setItemDescription] = useState('');
+  const [locationName, setLocationName] = useState('');
+  const [portionName, setPortionName] = useState('');
+  const [portionValue, setPortionValue] = useState('');
 
   const handleEditItem = () => {
     // Validate input fields
 
     // Add item to inventory
-    onAddItem({ name: itemName.trim(), description: itemDescription.trim() });
+    onAddItem({
+      name: itemName.trim(),
+      location: locationName.trim(),
+      portionName: portionName.trim(),
+      portionValue: portionValue.trim()
+    });
 
     // Reset input fields and close modal
     setItemName('');
-    setItemDescription('');
+    setLocationName('');
+    setPortionName('');
+    setPortionValue('');
     onClose();
   };
 
   return (
     <Modal visible={isVisible} animationType="slide">
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Add New Item</Text>
+        <Text>Edit Item</Text>
         <TextInput
           placeholder="Item Name"
           value={itemName}
@@ -34,9 +43,33 @@ const EditItemModal = ({ isVisible, onClose, onAddItem, businessId }) => {
           }}
         />
         <TextInput
-          placeholder="Description (optional)"
-          value={itemDescription}
-          onChangeText={setItemDescription}
+          placeholder="Location"
+          value={locationName}
+          onChangeText={setLocationName}
+          style={{
+            borderWidth: 1,
+            borderColor: 'gray',
+            padding: 10,
+            marginVertical: 10,
+            width: 250
+          }}
+        />
+        <TextInput
+          placeholder="Unit"
+          value={portionName}
+          onChangeText={setPortionName}
+          style={{
+            borderWidth: 1,
+            borderColor: 'gray',
+            padding: 10,
+            marginVertical: 10,
+            width: 250
+          }}
+        />
+        <TextInput
+          placeholder="Unit Amount"
+          value={portionValue}
+          onChangeText={setPortionValue}
           style={{
             borderWidth: 1,
             borderColor: 'gray',

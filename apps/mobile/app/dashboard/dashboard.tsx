@@ -174,15 +174,16 @@ export default function Dashboard() {
             onAddItem={handleEditPress}
             businessId={businessId}
           />
+
+          <View style={{ flex: 1, paddingHorizontal: 8 }}>
+            <MyListComponent
+              data={itemList}
+              onEditItemPress={handleOpenEditModal}
+              businessId={businessId}
+            />
+          </View>
         </>
       )}
-
-      <View style={{ flex: 1, paddingHorizontal: 8 }}>
-        <MyListComponent
-          data={itemList}
-          onEditItemPress={handleOpenEditModal}
-        />
-      </View>
     </View>
   );
 }
