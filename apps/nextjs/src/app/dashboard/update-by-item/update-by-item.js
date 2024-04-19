@@ -1117,7 +1117,7 @@ export function UpdateByItem() {
                                   className="bg-gray-100 rounded-md p-2 mb-2"
                                 />
                                 <br />
-                                <button
+                                <button className="text-white bg-blue-500 p-2 rounded-md relative"
                                   onClick={() => {
                                     EditLocationMetaData(popupLocation);
                                     handleClosePopup(); // Close the popup after saving
@@ -1138,7 +1138,7 @@ export function UpdateByItem() {
                                   {locationMetaData.locationMetaData}
                                 </p>
                                 <br></br>
-                                <button
+                                <button className="text-white bg-blue-500 p-2 rounded-md relative"
                                   onClick={() => {
                                     setNewLocationMetaData(locationMetaData);
                                     setEditMode(true);
@@ -1183,15 +1183,16 @@ export function UpdateByItem() {
                                     'location'
                                   )
                                 }
-                                className="bg-gray-100 rounded-md p-2 mb-2"
+                                className="bg-gray-300 rounded-md p-2 mb-2"
                               />
                               <br></br>
-                              <button
+                              <button className="text-white bg-blue-500 p-4 rounded-md relative"
                                 onClick={() => {
                                   addLocation();
                                   handleClosePopup();
                                 }}
                               >
+                                
                                 Create
                               </button>
                             </div>
@@ -1318,7 +1319,7 @@ export function UpdateByItem() {
                                 className="bg-gray-100 rounded-md p-2 mb-2"
                               />
                               <br></br>
-                              <button
+                              <button className="text-white bg-blue-500 p-4 rounded-md relative"
                                 onClick={() => {
                                   addInventoryItem();
                                   handleClosePopup();

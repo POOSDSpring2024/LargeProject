@@ -654,7 +654,7 @@ export function Distributors() {
                     {/* Add other input fields */}
                     <br />
                     {/* Save button */}
-                    <button onClick={EditDistributorMetaData}>Save</button>
+                    <button className="text-white bg-blue-500 p-4 rounded-md relative" onClick={EditDistributorMetaData}>Save</button>
                   </>
                 ) : (
                   <>
@@ -724,7 +724,7 @@ export function Distributors() {
                   className="bg-gray-100 rounded-md p-2 mb-2"
                 />
                 <br></br>
-                <button onClick={() => EditDistributor(itemName)}>Save</button>
+                <button className="text-white bg-blue-500 p-4 rounded-md relative"onClick={() => EditDistributor(itemName)}>Save</button>
               </div>
             </div>
           </div>
@@ -804,7 +804,7 @@ export function Distributors() {
                   className="bg-gray-100 rounded-md p-2 mb-2"
                 />
                 <br></br>
-                <button
+                <button className="text-white bg-blue-500 p-4 rounded-md relative"
                   onClick={() => {
                     addDistributor();
                     handleClosePopup();

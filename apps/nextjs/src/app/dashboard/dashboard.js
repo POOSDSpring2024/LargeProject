@@ -463,7 +463,7 @@ export function Dashboard() {
                           <button
                             onClick={() => handleItemLogPopup(item.itemName)}
                             type="button"
-                            className="inline-flex items-center justify-center rounded-md border border-gray-300 shadow-sm px-3 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+                            className="inline-flex items-center justify-center rounded-md border border-gray-300 shadow-sm px-3 py-2 bg-blue-500 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none"
                             style={{
                               marginRight: '100px',
                               verticalAlign: 'middle'
@@ -586,8 +586,8 @@ export function Dashboard() {
                     className="bg-gray-100 rounded-md p-2 mb-2"
                   />
                   <br />
-                  <button
-                    onClick={() => {
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    onClick={() => { 
                       EditLocationMetaData(popupLocation);
                       handleClosePopup(); // Close the popup after saving
                     }}
@@ -602,7 +602,7 @@ export function Dashboard() {
                   <p>Address: {locationMetaData.locationAddress}</p>
                   <p>Notes (MetaData): {locationMetaData.locationMetaData}</p>
                   <br></br>
-                  <button
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     onClick={() => {
                       setNewLocationMetaData(locationMetaData);
                       setEditMode(true);
