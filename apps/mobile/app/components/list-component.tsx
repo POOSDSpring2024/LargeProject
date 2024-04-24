@@ -14,7 +14,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import EditItemModal from './edit-item-modal';
 import GetLocations from './get-locations';
-import { set } from '@gluestack-style/react';
 
 //const [portionName, setPortionName] = useState('');
 //const [portionValue, setPortionValue] = useState('');
@@ -53,7 +52,7 @@ const MyListComponent: React.FC<MyListComponentProps> = ({
     };
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-location/read-all?businessId=' +
+        'https://slicer-project-backend.vercel.app/api/crud/business/item-location/read-all?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -83,7 +82,7 @@ const MyListComponent: React.FC<MyListComponentProps> = ({
     try {
       Alert.alert('Deleting Item:', itemName);
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-list/delete?businessId=' +
+        'https://slicer-project-backend.vercel.app/api/crud/business/item-list/delete?businessId=' +
           businessId,
         {
           method: 'POST',

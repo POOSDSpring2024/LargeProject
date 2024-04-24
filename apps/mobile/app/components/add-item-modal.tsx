@@ -1,4 +1,3 @@
-import { set } from '@gluestack-style/react';
 import React, { useState } from 'react';
 import { View, Modal, Text, TextInput, Button } from 'react-native';
 
@@ -15,7 +14,7 @@ const AddItemModal = ({ isVisible, onClose, onAddItem, businessId }) => {
     console.log('Request Body:', requestBody);
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-list/create?businessId=' +
+        'https://slicer-project-backend.vercel.app/api/crud/business/item-list/create?businessId=' +
           businessId,
         {
           method: 'POST',

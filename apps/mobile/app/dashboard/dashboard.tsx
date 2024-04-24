@@ -28,7 +28,6 @@ import {
   TextInput
 } from 'react-native';
 import GetLocations from '../components/get-locations';
-import { set } from '@gluestack-style/react';
 
 export default function Dashboard() {
   const [userId, setUserId] = useState(null);
@@ -68,7 +67,7 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/auth/user/logout',
+        'https://slicer-project-backend.vercel.app/api/auth/user/logout',
         {
           method: 'POST',
           headers: {
@@ -91,7 +90,8 @@ export default function Dashboard() {
 
   const getBusinessIdList = async () => {
     const response = await fetch(
-      'https://slicer-backend.vercel.app/api/auth/user/user-info?id=' + userId,
+      'https://slicer-project-backend.vercel.app/api/auth/user/user-info?id=' +
+        userId,
       {
         method: 'GET',
         headers: {
@@ -128,7 +128,7 @@ export default function Dashboard() {
       try {
         if (businessId) {
           const response = await fetch(
-            `https://slicer-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=${businessId}`,
+            `https://slicer-project-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=${businessId}`,
             {
               method: 'POST',
               headers: {

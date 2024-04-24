@@ -16,7 +16,7 @@ export function CookieComponent({ onUserIdReceived }) {
 
   const verifyAccessToken = async accessToken => {
     const response = await fetch(
-      'https://slicer-backend.vercel.app/api/auth/' + accessToken,
+      'https://slicer-project-backend.vercel.app/api/auth/' + accessToken,
       {
         method: 'POST',
         headers: {

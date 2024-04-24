@@ -28,7 +28,7 @@ export default function JoinBusiness() {
       console.log('Business Id', businessId);
 
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/auth/business/add-connection',
+        'https://slicer-project-backend.vercel.app/api/auth/business/add-connection',
         {
           method: 'POST',
           headers: {

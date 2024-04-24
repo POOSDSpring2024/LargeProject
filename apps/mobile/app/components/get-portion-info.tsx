@@ -1,4 +1,3 @@
-import { get } from '@gluestack-style/react';
 import React, { useState, useEffect } from 'react';
 
 export default function GetPortions(businessId, itemName) {
@@ -23,7 +22,7 @@ export default function GetPortions(businessId, itemName) {
   const fetchPortionList = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/portion-info-list/read-all?businessId=' +
+        'https://slicer-project-backend.vercel.app/api/crud/business/portion-info-list/read-all?businessId=' +
           businessId,
         {
           method: 'POST',

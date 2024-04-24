@@ -15,7 +15,7 @@ const EditItemModal = ({ isVisible, onClose, businessId, itemName }) => {
     };
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-list/update-name?businessId=' +
+        'https://slicer-project-backend.vercel.app/api/crud/business/item-list/update-name?businessId=' +
           businessId,
         {
           method: 'POST',
