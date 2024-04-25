@@ -35,18 +35,23 @@ export default function SignUp() {
             lastName,
             username,
             password,
-            email
+            email,
+            businessIdList: []
           })
         }
       );
 
+      console.log('response:', response);
+
       if (response.ok) {
         const data = await response.json();
-        //Alert.alert('Registration Successful');
+        console.log(response);
+        Alert.alert('Registration Successful');
         router.push('./login');
       } else {
         const errorData = await response.json();
-        Alert.alert('Registration Failed', errorData.message);
+        console.log(errorData);
+        //Alert.alert('Registration Failed', errorData.message);
       }
     } catch (error) {
       console.error('Error:', error);
