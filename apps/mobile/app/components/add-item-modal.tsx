@@ -1,4 +1,3 @@
-import { set } from '@gluestack-style/react';
 import React, { useState } from 'react';
 import { View, Modal, Text, TextInput, Button } from 'react-native';
 

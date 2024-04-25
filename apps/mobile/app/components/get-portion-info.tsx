@@ -1,4 +1,3 @@
-import { get } from '@gluestack-style/react';
 import React, { useState, useEffect } from 'react';
 
 export default function GetPortions(businessId, itemName) {

@@ -1,15 +1,10 @@
 import { CookieComponent } from '../auth/cookie-component';
 import { Ionicons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
 import { Link, router } from 'expo-router';
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopNavBar from '../components/navbar';
-
 import MyListComponent from '../components/list-component';
-import GetItems from '../components/get-items';
-import LargestPortion from '../components/get-portion-info';
-import GetPortions from '../components/get-portion-info';
 import AddItemModal from '../components/add-item-modal';
 import EditItemModal from '../components/edit-item-modal';
 import {
@@ -28,18 +23,46 @@ import {
   TextInput
 } from 'react-native';
 import GetLocations from '../components/get-locations';
-import { set } from '@gluestack-style/react';
 
 export default function Dashboard() {
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState('');
   const [businessId, setBusinessId] = useState('');
+  const [loading, setLoading] = useState(true);
   const [itemList, setItemList] = useState([]);
+  const [itemName, setItemName] = useState('');
+  const [largestPortionName, setLargestPortionName] = useState('');
+  const [largestPortionNumber, setLargestPortionNumber] = useState('');
   const [currectItem, setCurrentItem] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [locationList, setLocationList] = useState([]);
+  const [locationMetaData, setLocationMetaData] = useState({});
+  const [itemLog, setItemLog] = useState([]);
+  const [openIndex, setOpenIndex] = useState(null);
+  const [popupLocation, setPopupLocation] = useState('');
+  const [popupItemLog, setPopupItemLog] = useState(false);
+  const [selectedItemName, setSelectedItemName] = useState('');
+  const [editMode, setEditMode] = useState(false);
+  const [isSideNavOpen, setIsSideNavOpen] = useState(true);
+  const [addItemPopup, setAddItemPopups] = useState('');
+  const [loadingLocation, setLoadingLocation] = useState(false);
+  const [locationLoad, setLocationLoad] = useState('');
+  const [deleteItemPopup, setDeleteItemPopup] = useState('');
 
   const handleUserIdReceived = receivedUserId => {
     setUserId(receivedUserId);
+  };
+  const updateItemLog = newItemLog => {
+    setItemLog(newItemLog);
+  };
+
+  const updateLocationList = newLocationList => {
+    setLocationList(newLocationList);
+    setLoadingLocation(false);
+  };
+
+  const updataLocationMetaData = newLocationMetaData => {
+    setLocationMetaData(newLocationMetaData);
   };
 
   const handleAccountPress = async () => {
@@ -68,7 +91,7 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/auth/user/logout',
+        'https://slicer-project-backend.vercel.app/api/auth/user/logout',
         {
           method: 'POST',
           headers: {
@@ -89,9 +112,58 @@ export default function Dashboard() {
     }
   };
 
+  const readAll = async () => {
+    try {
+      const response = await fetch(
+        `https://slicer-project-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=${businessId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      if (!response.ok) {
+        throw new Error('Failed to fetch item names');
+      }
+      const data = await response.json();
+      const fieldValues = data.outputList;
+      console.log('FIELD NAMES:\n' + fieldValues);
+
+      setItemList(fieldValues);
+    } catch (error) {
+      console.error('Error fetching item names:', error);
+    }
+  };
+
+  const fetchNewItemList = async () => {
+    try {
+      const response = await fetch(
+        `https://slicer-project-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=${businessId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      if (!response.ok) {
+        console.log('error');
+        return null;
+      }
+      const data = await response.json();
+      const fieldValues = data.outputList;
+
+      setItemList(fieldValues); // Update itemList state with new data
+    } catch (error) {
+      console.error('Error fetching item names:', error);
+    }
+  };
+
   const getBusinessIdList = async () => {
     const response = await fetch(
-      'https://slicer-backend.vercel.app/api/auth/user/user-info?id=' + userId,
+      'https://slicer-project-backend.vercel.app/api/auth/user/user-info?id=' +
+        userId,
       {
         method: 'GET',
         headers: {
@@ -101,28 +173,33 @@ export default function Dashboard() {
     );
     if (response.ok) {
       const responseData = await response.json();
-      return responseData.businessIdList;
+      console.log('Business ID List:', responseData.businessIdList[0]);
+      return responseData.businessIdList[0];
     } else {
       console.log('error');
       const errorData = await response.json();
-      return [];
+      console.log(errorData);
+      return null;
     }
   };
 
   useEffect(() => {
-    const fetchBusinessId = async () => {
-      try {
-        const data = await getBusinessIdList();
-        setBusinessId(data[0]);
-      } catch (error) {
-        console.error('Error fetching business ID list:', error);
+    async function fetchBusinessId() {
+      if (userId !== '') {
+        setLoading(false);
+        const response = await getBusinessIdList();
+        console.log('Business ID:', response);
+        setBusinessId(response);
       }
-    };
-
+    }
     fetchBusinessId();
-    //storeAccessToken(data[0]);
   }, [userId]);
 
+  useEffect(() => {
+    if (businessId !== '') readAll();
+  }, [businessId]);
+
+  /*
   useEffect(() => {
     const fetchItemList = async () => {
       try {
@@ -150,7 +227,7 @@ export default function Dashboard() {
     };
     fetchItemList();
   }, [businessId]);
-
+*/
   return (
     <View style={styles.container}>
       <CookieComponent onUserIdReceived={handleUserIdReceived} />

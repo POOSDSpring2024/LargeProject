@@ -18,7 +18,7 @@ export default function ForgotPassword() {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/auth/user/forgot-password',
+        'https://slicer-project-backend.vercel.app/api/auth/user/forgot-password',
         {
           method: 'POST',
           headers: {

@@ -14,7 +14,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import EditItemModal from './edit-item-modal';
 import GetLocations from './get-locations';
-import { set } from '@gluestack-style/react';
 
 //const [portionName, setPortionName] = useState('');
 //const [portionValue, setPortionValue] = useState('');
