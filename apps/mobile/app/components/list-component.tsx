@@ -106,6 +106,7 @@ const MyListComponent: React.FC<MyListComponentProps> = ({
         onClose={handleCloseModal}
         itemName={selectedItemName}
         businessId={businessId}
+        fetchNewItemList={fetchNewItemList}
       />
     </>
   );

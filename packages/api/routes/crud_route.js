@@ -98,7 +98,7 @@ router.post('/business/item-list/total-item-count', getTotalItemCount); // ?busi
 //
 // Portion List Info
 router.post('/business/portion-info-list/create', createPortionInfo); // ?businessId {itemName, unitName,unitNumber}
-router.post('/business/portion-info-list/read-all', readAllPortionInfo); // ?businessId  {itemName}
+router.post('business/portion-info-list/read-all', readAllPortionInfo); // ?businessId  {itemName}
 router.post('/business/portion-info-list/update-name', updatePortionInfoName); // ?businessId { itemName, findUnitName, newUnitName }
 router.post(
   '/business/portion-info-list/update-number',
