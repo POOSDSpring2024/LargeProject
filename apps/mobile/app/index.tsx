@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import { registerRootComponent } from 'expo';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 
 function Page() {
+  //const router = useRouter();
   return (
     <View style={styles.container}>
       <View style={styles.main}>

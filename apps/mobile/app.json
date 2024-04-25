@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "schema": "mobile",
     // "entryPoint": "./app/index.tsx",
     "splash": {
       "image": "./assets/splash.png",
