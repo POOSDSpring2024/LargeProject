@@ -32,7 +32,8 @@ interface MyListComponentProps {
 const MyListComponent: React.FC<MyListComponentProps> = ({
   data,
   onEditItemPress,
-  businessId
+  businessId,
+  fetchNewItemList
 }) => {
   const [selectedItemName, setSelectedItemName] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -47,34 +48,6 @@ const MyListComponent: React.FC<MyListComponentProps> = ({
     setIsModalVisible(false);
   };
   const handleDeletePress = async itemName => {
-    const firstRequestBody = {
-      itemName: itemName
-    };
-    try {
-      const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-location/read-all?businessId=' +
-          businessId,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(firstRequestBody)
-        }
-      );
-      if (!response.ok) {
-        console.log('error yo');
-        throw new Error('Failed to fetch location info');
-      }
-      const data = await response.json();
-      const fieldValues = data.outputList[0];
-      setLocationName(fieldValues.locationName[0]);
-      console.log('Field Value', fieldValues);
-    } catch (error) {
-      console.error('Error in fetchPortionList:', error);
-    }
-
-    console.log('thelocatioName', locationName);
     const requestBody = {
       itemName: itemName
       //locationName: locationName
@@ -82,7 +55,7 @@ const MyListComponent: React.FC<MyListComponentProps> = ({
     try {
       Alert.alert('Deleting Item:', itemName);
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-list/delete?businessId=' +
+        'https://slicer-project-backend.vercel.app/api/crud/business/item-list/delete?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -92,11 +65,8 @@ const MyListComponent: React.FC<MyListComponentProps> = ({
           body: JSON.stringify(requestBody)
         }
       );
-      console.log(requestBody);
-      console.log('Response:', response);
       if (response.ok) {
-        console.log(response);
-        return locationName;
+        await fetchNewItemList();
       }
     } catch (error) {
       console.error('Error in delete:', error);

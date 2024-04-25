@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { View, Modal, Text, TextInput, Button } from 'react-native';
 
-const AddItemModal = ({ isVisible, onClose, onAddItem, businessId }) => {
+const AddItemModal = ({
+  isVisible,
+  onClose,
+  onAddItem,
+  businessId,
+  fetchNewItemList
+}) => {
   const [itemName, setItemName] = useState('');
   const [locationName, setLocationName] = useState('');
   const [portionName, setPortionName] = useState('');
@@ -24,12 +30,12 @@ const AddItemModal = ({ isVisible, onClose, onAddItem, businessId }) => {
           body: JSON.stringify(requestBody)
         }
       );
-      console.log('BusinessID', businessId);
       if (response.ok) {
+        await fetchNewItemList();
         console.log(response);
       }
     } catch (error) {
-      console.error('Error in fetchPortionList:', error);
+      console.error('Error in add item:', error);
     }
 
     // Add item to inventory

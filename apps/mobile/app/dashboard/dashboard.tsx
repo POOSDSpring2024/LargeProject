@@ -148,11 +148,12 @@ export default function Dashboard() {
         }
       );
       if (!response.ok) {
-        console.log('error');
+        console.log('error', response);
         return null;
       }
       const data = await response.json();
       const fieldValues = data.outputList;
+      console.log('Updated item List', fieldValues);
 
       setItemList(fieldValues); // Update itemList state with new data
     } catch (error) {
@@ -244,6 +245,7 @@ export default function Dashboard() {
             onClose={handleCloseModal}
             onAddItem={handleAddPress}
             businessId={businessId}
+            fetchNewItemList={fetchNewItemList}
           />
           {/*<EditItemModal
             isVisible={isEditModalVisible}
@@ -257,6 +259,7 @@ export default function Dashboard() {
               data={itemList}
               onEditItemPress={handleOpenEditModal}
               businessId={businessId}
+              fetchNewItemList={fetchNewItemList}
             />
           </View>
         </>
