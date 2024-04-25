@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
+import { registerRootComponent } from 'expo';
 import { Link } from 'expo-router';
 
-export default function Page() {
+function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
@@ -69,3 +70,5 @@ const styles = StyleSheet.create({
     paddingTop: 20
   }
 });
+
+export default registerRootComponent(Page);
