@@ -9,7 +9,6 @@ import ItemEstimateDeduction from '../components/ItemEstimateDeduction';
 import ItemsNeeded from '../components/ItemsNeeded';
 import ItemsUsedIn from '../components/ItemsUsedIn';
 import Portal from '../components/Portal';
-import ItemsNeededWrapper from '../components/ItemsNeededWrapper';
 // import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 export function UpdateByCalculator() {
@@ -39,7 +38,6 @@ export function UpdateByCalculator() {
   useState('');
   const [isSideNavOpen, setIsSideNavOpen] = useState(true);
   const [openStates, setOpenStates] = useState({});
-  const [makeEstimatePopup, setMakeEstimatePopup] = useState('');
 
   const handleSideNavOpen = openState => {
     setIsSideNavOpen(openState);
@@ -63,108 +61,6 @@ export function UpdateByCalculator() {
     newUnitNumber: 1
   });
 
-  const handleMakeEstimatePopup = () => {
-    setMakeEstimatePopup(true);
-  };
-
-  const updatedEstimateDeduction = async (
-    newEstimateDeduction,
-    findItemName
-  ) => {
-    const endpoint =
-      'https://slicer-backend.vercel.app/api/crud/business/estimate-deduction/update?businessId=' +
-      businessId;
-
-    const payload = {
-      newEstimateDeduction: newEstimateDeduction,
-      findItemName: findItemName
-    };
-
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST', // or 'POST' depending on your API
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-    } catch (error) {
-      console.error('Error updating estimate deduction:', error);
-      throw error;
-    }
-  };
-
-  const getEstimateDeduction = async (businessId, itemName) => {
-    const url =
-      'https://slicer-backend.vercel.app/api/crud/business/estimate-deduction/read?businessId=' +
-      businessId;
-
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ itemName: itemName })
-    };
-
-    try {
-      const response = await fetch(url, requestOptions);
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      const estimateDeduction = data.output[0]?.estimateDeduction || 0;
-
-      return estimateDeduction;
-    } catch (error) {
-      console.error(
-        'There was a problem fetching the estimate deduction:',
-        error
-      );
-      return null;
-    }
-  };
-
-  const estimateCalculator = async () => {
-    // Call the wrapper component to handle fetching and updating itemsNeeded
-    console.log('Here');
-    await (
-      <ItemsNeededWrapper
-        businessId={businessId}
-        itemName={itemName}
-        setItemsNeeded={setItemsNeeded}
-      />
-    );
-    console.log('Here');
-
-    // Loop through the updated itemsNeeded state
-    if (itemsNeededMap[itemName]) {
-      console.log('here');
-      itemsNeededMap[itemName].forEach(async (item, index) => {
-        console.log('here');
-        console.log(item.unitName);
-
-        // Fetch estimateDeduction
-        const estimateDeduction = await getEstimateDeduction(
-          businessId,
-          itemName
-        );
-        // Calculate result
-        const result =
-          item.unitCost * editedPortion.newUnitNumber + estimateDeduction;
-        updatedEstimateDeduction(result, itemName);
-        // Print result to console
-        console.log(`Result for ${item.unitName}: ${result}`);
-      });
-    }
-  };
-
   const handleCloseTablePopup = () => {
     setOpenStates(prevStates => ({
       ...prevStates,
@@ -182,7 +78,6 @@ export function UpdateByCalculator() {
     setDeletePopup(false);
     setAddPortionPopup(false);
     setEditInventoryNeededInPopup(false);
-    setMakeEstimatePopup(false);
     setTableKey(prevKey => prevKey + 1);
   };
 
@@ -290,7 +185,7 @@ export function UpdateByCalculator() {
   const updateItem = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-relation/update-unit-cost?businessId=' +
+        'http://localhost:3001/api/crud/business/item-relation/update-unit-cost?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -317,7 +212,7 @@ export function UpdateByCalculator() {
   const updateItemNeeded = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-relation/update-unit-cost?businessId=' +
+        'http://localhost:3001/api/crud/business/item-relation/update-unit-cost?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -344,7 +239,7 @@ export function UpdateByCalculator() {
   const updatePortion = async () => {
     try {
       const response1 = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/portion-info-list/update-name?businessId=' +
+        'http://localhost:3001/api/crud/business/portion-info-list/update-name?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -362,7 +257,7 @@ export function UpdateByCalculator() {
         console.error('Failed to update portion name: ' + Error);
       }
       const response2 = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/portion-info-list/update-number?businessId=' +
+        'http://localhost:3001/api/crud/business/portion-info-list/update-number?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -388,7 +283,7 @@ export function UpdateByCalculator() {
   const fetchNewPortion = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/portion-info-list/read-all?businessId=' +
+        'http://localhost:3001/api/crud/business/portion-info-list/read-all?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -413,7 +308,7 @@ export function UpdateByCalculator() {
   const addNewPortion = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/portion-info-list/create?businessId=' +
+        'http://localhost:3001/api/crud/business/portion-info-list/create?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -442,7 +337,7 @@ export function UpdateByCalculator() {
     console.log(editedInventory.newUnitCost);
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-relation/create?businessId=' +
+        'http://localhost:3001/api/crud/business/item-relation/create?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -470,7 +365,7 @@ export function UpdateByCalculator() {
   const deleteItemConnection = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-relation/delete?businessId=' +
+        'http://localhost:3001/api/crud/business/item-relation/delete?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -499,7 +394,7 @@ export function UpdateByCalculator() {
   const deletePortion = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/portion-info-list/delete?businessId=' +
+        'http://localhost:3001/api/crud/business/portion-info-list/delete?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -526,7 +421,7 @@ export function UpdateByCalculator() {
     console.log(itemName);
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-relation/read-used-in?businessId=' +
+        'http://localhost:3001/api/crud/business/item-relation/read-used-in?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -556,7 +451,7 @@ export function UpdateByCalculator() {
   const fetchItemNeeded = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-relation/read-needed?businessId=' +
+        'http://localhost:3001/api/crud/business/item-relation/read-needed?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -592,7 +487,7 @@ export function UpdateByCalculator() {
 
   const getBusinessId = async () => {
     const response = await fetch(
-      'https://slicer-backend.vercel.app/api/auth/user/user-info?id=' + userId,
+      'http://localhost:3001/api/auth/user/user-info?id=' + userId,
       {
         method: 'GET',
         headers: {
@@ -628,11 +523,11 @@ export function UpdateByCalculator() {
   const readAll = async () => {
     try {
       console.log(
-        'https://slicer-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=' +
+        'http://localhost:3001/api/crud/business/item-list/read-all/?businessId=' +
           businessId
       );
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=' +
+        'http://localhost:3001/api/crud/business/item-list/read-all/?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -1738,88 +1633,6 @@ export function UpdateByCalculator() {
                       </div>
                     </Portal>
                   )}
-                  {makeEstimatePopup && (
-                    <Portal>
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          zIndex: 1000,
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          backdropFilter: 'blur(4px)'
-                        }}
-                        onClick={e => e.stopPropagation()}
-                      >
-                        <div
-                          className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
-                          style={{
-                            width: '40%',
-                            maxHeight: '70%',
-                            maxWidth: '90%',
-                            zIndex: 110,
-                            position: 'relative'
-                          }}
-                          onClick={e => e.stopPropagation()}
-                        >
-                          <div className="flex justify-end p-2">
-                            <button
-                              onClick={handleClosePopup}
-                              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                            >
-                              <svg
-                                className="w-5 h-5"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                ></path>
-                              </svg>
-                            </button>
-                          </div>
-                          <h6 className="text-center mb-4">Item: </h6>
-                          <p className="text-center mb-2">Item Name: </p>
-                          <input
-                            type="text"
-                            name="itemName"
-                            value={itemName}
-                            readOnly
-                            className="bg-gray-200 rounded-md p-2 mb-2"
-                          />
-                          <p className="text-center mb-2">
-                            Input the item number(number of items sold/used):{' '}
-                          </p>
-                          <input
-                            type="text"
-                            name="newUnitName"
-                            value={editedPortion.newUnitNumber}
-                            onChange={e =>
-                              handleInputChange(e, 'newUnitNumber', 'portion')
-                            }
-                            className="bg-gray-200 rounded-md p-2 mb-2"
-                          />
-                          <br />
-                          <button
-                            onClick={() => {
-                              estimateCalculator();
-                              handleClosePopup();
-                            }}
-                            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                          >
-                            Save
-                          </button>
-                        </div>
-                      </div>
-                    </Portal>
-                  )}
                 </li>
               ))}
             <div className="-m-1.5 overflow-x-auto">
@@ -1863,12 +1676,6 @@ export function UpdateByCalculator() {
                           className="px-8 py-4 text-start text-sm font-medium text-gray-500 uppercase dark:text-neutral-500 w-[20%]"
                         >
                           Items Used
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-8 py-4 text-start text-sm font-medium text-gray-500 uppercase dark:text-neutral-500 w-[20%]"
-                        >
-                          Make Estimate
                         </th>
                       </tr>
                     </thead>
@@ -1959,19 +1766,6 @@ export function UpdateByCalculator() {
                                 className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 w-[20%]"
                               >
                                 UsedIn
-                              </button>
-                            </td>
-                            <td className="px-8 py-6 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200 w-[20%]">
-                              <button
-                                onClick={e => {
-                                  setItemName(item.itemName);
-                                  handleMakeEstimatePopup();
-                                  e.stopPropagation();
-                                }}
-                                type="button"
-                                className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 w-[20%]"
-                              >
-                                Make Estimate
                               </button>
                             </td>
                           </tr>

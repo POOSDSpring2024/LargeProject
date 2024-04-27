@@ -35,7 +35,7 @@ const SideNav = ({ openCallback }) => {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/auth/user/logout',
+        'http://localhost:3001/api/auth/user/logout',
         {
           method: 'POST',
           headers: {
