@@ -15,22 +15,14 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.json());
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PATCH, DELETE, OPTIONS'
-  );
-  next();
-});
-
 app.use(
   cors({
-    origin: ['http://localhost:' + PORT],
+    origin: [
+      'http://localhost:3000',
+      'https://slicer-project-backend.vercel.app',
+      'http://localhost:3001',
+      'https://slicer-project.vercel.app'
+    ],
     // origin: ['https://large-project-nextjs.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
