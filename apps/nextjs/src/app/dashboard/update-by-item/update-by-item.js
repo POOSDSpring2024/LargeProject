@@ -286,7 +286,7 @@ export function UpdateByItem() {
   const addLocation = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3001/api/crud/business/item-location/create?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/item-location/create?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -316,7 +316,7 @@ export function UpdateByItem() {
   const addInventoryItem = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3001/api/crud/business/item-inventory/create?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/item-inventory/create?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -349,7 +349,7 @@ export function UpdateByItem() {
     console.log(newInventoryItem.newNumber);
     try {
       const response1 = await fetch(
-        'http://localhost:3001/api/crud/business/item-inventory/update-number?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/item-inventory/update-number?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -367,8 +367,12 @@ export function UpdateByItem() {
       if (!response1.ok) {
         console.Error('Error updating inventory item name: ', Error);
       }
+      console.log(newInventoryItem.newMetaData);
+      console.log(newInventoryItem.index);
+      console.log(locationName);
+      console.log(itemName);
       const response2 = await fetch(
-        'http://localhost:3001/api/crud/business/item-inventory/update-metadata?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/item-inventory/update-metadata?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -398,7 +402,7 @@ export function UpdateByItem() {
     try {
       // Make the first API call to update the distributor item name
       const response1 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-item/update-distributor-item-name?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-item/update-distributor-item-name?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -419,7 +423,7 @@ export function UpdateByItem() {
       console.log('Unit Amount: ' + editedDistributorData.unitAmount);
       // Make the second API call to update the unit amount
       const response2 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-item/update-item-portion?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-item/update-item-portion?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -439,7 +443,7 @@ export function UpdateByItem() {
 
       // Make the third API call to update the cost
       const response3 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-item/update-item-cost?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-item/update-item-cost?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -476,7 +480,7 @@ export function UpdateByItem() {
   const handleDeleteItem = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3001/api/crud/business/item-inventory/delete?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/item-inventory/delete?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -502,7 +506,7 @@ export function UpdateByItem() {
   const EditDistributorMetaData = async () => {
     try {
       const response1 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-metadata-list/update-deadline-date?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-metadata-list/update-deadline-date?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -519,7 +523,7 @@ export function UpdateByItem() {
         throw new Error('Failed to update Deadline Date');
       }
       const response2 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-metadata-list/update-delivery-date?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-metadata-list/update-delivery-date?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -536,7 +540,7 @@ export function UpdateByItem() {
         throw new Error('Failed to update Delivery Date');
       }
       const response3 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-metadata-list/update-meta-data?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-metadata-list/update-meta-data?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -565,7 +569,7 @@ export function UpdateByItem() {
   const EditLocationMetaData = async location => {
     try {
       const response1 = await fetch(
-        'http://localhost:3001/api/crud/business/location-metadata-list/update-address?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/location-metadata-list/update-address?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -582,7 +586,7 @@ export function UpdateByItem() {
         throw new Error('Failed to update location address: ', Error);
       }
       const response2 = await fetch(
-        'http://localhost:3001/api/crud/business/location-metadata-list/update-metadata?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/location-metadata-list/update-metadata?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -610,7 +614,7 @@ export function UpdateByItem() {
     };
 
     const response = await fetch(
-      'http://localhost:3001/api/crud/business/item-inventory/read-all?businessId=' +
+      'https://slicer-backend.vercel.app/api/crud/business/item-inventory/read-all?businessId=' +
         businessId,
       {
         method: 'POST',
@@ -637,7 +641,7 @@ export function UpdateByItem() {
     };
 
     const response = await fetch(
-      'http://localhost:3001/api/crud/business/item-location/read-all?businessId=' +
+      'https://slicer-backend.vercel.app/api/crud/business/item-location/read-all?businessId=' +
         businessId,
       {
         method: 'POST',
@@ -659,7 +663,7 @@ export function UpdateByItem() {
 
   const getBusinessId = async () => {
     const response = await fetch(
-      'http://localhost:3001/api/auth/user/user-info?id=' + userId,
+      'https://slicer-backend.vercel.app/api/auth/user/user-info?id=' + userId,
       {
         method: 'GET',
         headers: {
@@ -695,11 +699,11 @@ export function UpdateByItem() {
   const readAll = async () => {
     try {
       console.log(
-        'hhttp://localhost:3001/api/crud/business/item-list/read-all/?businessId=' +
+        'hhttps://slicer-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=' +
           businessId
       );
       const response = await fetch(
-        'http://localhost:3001/api/crud/business/item-list/read-all/?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -723,7 +727,7 @@ export function UpdateByItem() {
   const upItemCount = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3001/api/crud/business/item-list/total-item-count?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/item-list/total-item-count?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -1063,27 +1067,61 @@ export function UpdateByItem() {
                       </div>
                     )}
                     {popupLocation && (
-                      <div>
+                      <div
+                        className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50"
+                        onClick={handleClosePopup}
+                      >
                         <div
-                          className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50"
-                          onClick={handleClosePopup}
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            zIndex: 1000,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backdropFilter: 'blur(4px)'
+                          }}
+                          onClick={e => e.stopPropagation()}
                         >
-                          <LocationPopup
-                            locationName={popupLocation}
-                            businessId={businessId}
-                            updataLocationMetaData={updataLocationMetaData}
-                          />
                           <div
-                            className="bg-white p-4 rounded-md relative"
+                            className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
+                            style={{
+                              width: '40%',
+                              maxHeight: '70%',
+                              maxWidth: '90%',
+                              zIndex: 110,
+                              position: 'relative'
+                            }}
                             onClick={e => e.stopPropagation()}
                           >
-                            <button
-                              className="absolute top-2 right-2"
-                              onClick={handleClosePopup}
-                            >
-                              X
-                            </button>
-                            {/* <h6>Information about {popupLocation}</h6> */}
+                            <div className="flex justify-end p-2">
+                              <button
+                                onClick={handleClosePopup}
+                                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                              >
+                                <svg
+                                  className="w-5 h-5"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clipRule="evenodd"
+                                  ></path>
+                                </svg>
+                              </button>
+                            </div>
+
+                            <LocationPopup
+                              locationName={popupLocation}
+                              businessId={businessId}
+                              updataLocationMetaData={updataLocationMetaData}
+                            />
 
                             {editMode ? (
                               <>
@@ -1152,23 +1190,55 @@ export function UpdateByItem() {
                         </div>
                       </div>
                     )}
+
                     {addLocationPopup && (
                       <div>
                         <div>
                           <div
-                            className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50"
-                            onClick={handleClosePopup}
+                            style={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              zIndex: 1000,
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              backdropFilter: 'blur(4px)'
+                            }}
+                            onClick={e => e.stopPropagation()}
                           >
                             <div
-                              className="bg-white p-4 rounded-md relative"
+                              className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
+                              style={{
+                                width: '40%',
+                                maxHeight: '70%',
+                                maxWidth: '90%',
+                                zIndex: 110,
+                                position: 'relative'
+                              }}
                               onClick={e => e.stopPropagation()}
                             >
-                              <button
-                                className="absolute top-2 right-2"
-                                onClick={handleClosePopup}
-                              >
-                                X
-                              </button>
+                              <div className="flex justify-end p-2">
+                                <button
+                                  onClick={handleClosePopup}
+                                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                >
+                                  <svg
+                                    className="w-5 h-5"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                      clipRule="evenodd"
+                                    ></path>
+                                  </svg>
+                                </button>
+                              </div>
                               <h6>Create a new Location: </h6>
                               <p>Location name: </p>
 
@@ -1201,178 +1271,257 @@ export function UpdateByItem() {
                       </div>
                     )}
                     {editInventoryItemPopup && (
-                      <div>
+                      <div
+                        style={{
+                          position: 'fixed',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          zIndex: 1000,
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backdropFilter: 'blur(4px)'
+                        }}
+                        onClick={handleClosePopup}
+                      >
                         <div
-                          className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50"
-                          onClick={handleClosePopup}
+                          className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
+                          style={{
+                            width: '40%',
+                            maxHeight: '70%',
+                            maxWidth: '90%',
+                            zIndex: 110,
+                            position: 'relative'
+                          }}
+                          onClick={e => e.stopPropagation()}
                         >
-                          <div
-                            className="bg-white p-4 rounded-md relative"
-                            onClick={e => e.stopPropagation()}
-                          >
+                          <div className="flex justify-end p-2">
                             <button
-                              className="absolute top-2 right-2"
                               onClick={handleClosePopup}
+                              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                             >
-                              X
+                              <svg
+                                className="w-5 h-5"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                  clipRule="evenodd"
+                                ></path>
+                              </svg>
                             </button>
-                            <h6>Edit Inventory Input: </h6>
-                            <p>Portion Number: </p>
-                            <input
-                              type="text"
-                              name="newNumber"
-                              value={newInventoryItem.newNumber}
-                              onChange={e =>
-                                handleInputChange(e, 'newNumber', 'Item')
-                              }
-                              className="bg-gray-100 rounded-md p-2 mb-2"
-                            />
-                            <p>Note: </p>
-                            <input
-                              type="text"
-                              name="newMetaData"
-                              value={newInventoryItem.newMetaData}
-                              onChange={e =>
-                                handleInputChange(e, 'newMetaData', 'Item')
-                              }
-                              className="bg-gray-100 rounded-md p-2 mb-2"
-                            />
-                            <br />
+                          </div>
+                          <h6>Edit Inventory Input: </h6>
+                          <p>Portion Number: </p>
+                          <input
+                            type="text"
+                            name="newNumber"
+                            value={newInventoryItem.newNumber}
+                            onChange={e =>
+                              handleInputChange(e, 'newNumber', 'Item')
+                            }
+                            className="bg-gray-100 rounded-md p-2 mb-2"
+                          />
+                          <p>Note: </p>
+                          <input
+                            type="text"
+                            name="newMetaData"
+                            value={newInventoryItem.newMetaData}
+                            onChange={e =>
+                              handleInputChange(e, 'newMetaData', 'Item')
+                            }
+                            className="bg-gray-100 rounded-md p-2 mb-2"
+                          />
+                          <br />
+                          <button
+                            onClick={() => {
+                              updateInventoryItem(), handleClosePopup();
+                            }}
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {addInventoryPopup && (
+                      <div
+                        style={{
+                          position: 'fixed',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          zIndex: 1000,
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backdropFilter: 'blur(4px)'
+                        }}
+                        onClick={handleClosePopup}
+                      >
+                        <div
+                          className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
+                          style={{
+                            width: '40%',
+                            maxHeight: '70%',
+                            maxWidth: '90%',
+                            zIndex: 110,
+                            position: 'relative'
+                          }}
+                          onClick={e => e.stopPropagation()}
+                        >
+                          <div className="flex justify-end p-2">
                             <button
+                              onClick={handleClosePopup}
+                              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                            >
+                              <svg
+                                className="w-5 h-5"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                  clipRule="evenodd"
+                                ></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <h6>Create a new Inventory Item: </h6>
+                          <p>Item Name: </p>
+                          <input
+                            type="text"
+                            name="itemName"
+                            value={itemName}
+                            readOnly
+                            className="bg-gray-100 rounded-md p-2 mb-2"
+                          />
+                          <p>Location Name: </p>
+                          <input
+                            type="text"
+                            name="locationName"
+                            value={locationName}
+                            readOnly
+                            className="bg-gray-100 rounded-md p-2 mb-2"
+                          />
+                          <p>Portion Number: </p>
+                          <input
+                            type="text"
+                            name="newNumber"
+                            value={newInventoryItem.newNumber}
+                            onChange={e =>
+                              handleInputChange(e, 'newNumber', 'Item')
+                            }
+                            className="bg-gray-100 rounded-md p-2 mb-2"
+                          />
+                          <p>Note(MetaData): </p>
+                          <input
+                            type="text"
+                            name="newMetaData"
+                            value={newInventoryItem.newMetaData}
+                            onChange={e =>
+                              handleInputChange(e, 'newMetaData', 'Item')
+                            }
+                            className="bg-gray-100 rounded-md p-2 mb-2"
+                          />
+                          <p>Log Reason: </p>
+                          <input
+                            type="text"
+                            name="logReason"
+                            value={newLocation.logReason}
+                            onChange={e =>
+                              handleInputChange(e, 'logReason', 'Item')
+                            }
+                            className="bg-gray-100 rounded-md p-2 mb-2"
+                          />
+                          <br />
+                          <button className="text-white bg-blue-500 p-4 rounded-md relative"
+                            onClick={() => {
+                              addInventoryItem();
+                              handleClosePopup();
+                            }}
+                          >
+                            Create
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {deleteInventoryPopup && (
+                      <div
+                        style={{
+                          position: 'fixed',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          zIndex: 1000,
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backdropFilter: 'blur(4px)'
+                        }}
+                        onClick={handleClosePopup}
+                      >
+                        <div
+                          className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
+                          style={{
+                            width: '40%',
+                            maxHeight: '70%',
+                            maxWidth: '90%',
+                            zIndex: 110,
+                            position: 'relative'
+                          }}
+                          onClick={e => e.stopPropagation()}
+                        >
+                          <div className="flex justify-end p-2">
+                            <button
+                              onClick={handleClosePopup}
+                              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                            >
+                              <svg
+                                className="w-5 h-5"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                  clipRule="evenodd"
+                                ></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <br />
+                          <p className="max-w-sm text-center">
+                            Are you sure you want to delete this Inventory Item?
+                          </p>
+                          <br />
+                          <div className="flex justify-between">
+                            <button
+                              className="bg-green-500 text-white px-4 py-2 rounded-md mr-2"
                               onClick={() => {
-                                updateInventoryItem(), handleClosePopup();
+                                handleDeleteItem();
+                                handleClosePopup();
                               }}
                             >
-                              Save
+                              Yes
                             </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    {addInventoryPopup && (
-                      <div>
-                        <div>
-                          <div
-                            className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50"
-                            onClick={handleClosePopup}
-                          >
-                            <div
-                              className="bg-white p-4 rounded-md relative"
-                              onClick={e => e.stopPropagation()}
+                            <button
+                              className="bg-red-500 text-white px-4 py-2 rounded-md"
+                              onClick={handleClosePopup}
                             >
-                              <button
-                                className="absolute top-2 right-2"
-                                onClick={handleClosePopup}
-                              >
-                                X
-                              </button>
-                              <h6>Create a new Inventory Item: </h6>
-                              <p>Item Name: </p>
-
-                              <input
-                                type="text"
-                                name="itemName"
-                                value={itemName}
-                                readOnly
-                                className="bg-gray-100 rounded-md p-2 mb-2"
-                              />
-                              <p>Location Name: </p>
-
-                              <input
-                                type="text"
-                                name="locationName"
-                                value={locationName}
-                                readOnly
-                                className="bg-gray-100 rounded-md p-2 mb-2"
-                              />
-                              <p>Portion Number: </p>
-
-                              <input
-                                type="text"
-                                name="newNumber"
-                                value={newInventoryItem.newNumber}
-                                onChange={e =>
-                                  handleInputChange(e, 'newNumber', 'Item')
-                                }
-                                className="bg-gray-100 rounded-md p-2 mb-2"
-                              />
-                              <p>Note(MetaData): </p>
-
-                              <input
-                                type="text"
-                                name="newMetaData"
-                                value={newInventoryItem.newMetaData}
-                                onChange={e =>
-                                  handleInputChange(e, 'newMetaData', 'Item')
-                                }
-                                className="bg-gray-100 rounded-md p-2 mb-2"
-                              />
-                              <p>Log Reason: </p>
-
-                              <input
-                                type="text"
-                                name="logReason"
-                                value={newLocation.logReason}
-                                onChange={e =>
-                                  handleInputChange(e, 'logReason', 'Item')
-                                }
-                                className="bg-gray-100 rounded-md p-2 mb-2"
-                              />
-                              <br></br>
-                              <button className="text-white bg-blue-500 p-4 rounded-md relative"
-                                onClick={() => {
-                                  addInventoryItem();
-                                  handleClosePopup();
-                                }}
-                              >
-                                Create
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    {deleteInventoryPopup && (
-                      <div>
-                        <div>
-                          <div
-                            className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50"
-                            onClick={handleClosePopup}
-                          >
-                            <div
-                              className="bg-white p-4 rounded-md relative"
-                              onClick={e => e.stopPropagation()}
-                            >
-                              <button
-                                className="absolute top-2 right-2"
-                                onClick={handleClosePopup}
-                              >
-                                X
-                              </button>
-                              <br />
-                              <p className="max-w-sm text-center">
-                                Are you sure you want to delete this Inventory
-                                Item?
-                              </p>
-                              <br />
-                              <div className="flex justify-between">
-                                <button
-                                  className="bg-green-500 text-white px-4 py-2 rounded-md mr-2"
-                                  onClick={() => {
-                                    handleDeleteItem();
-                                    handleClosePopup();
-                                  }}
-                                >
-                                  Yes
-                                </button>
-                                <button
-                                  className="bg-red-500 text-white px-4 py-2 rounded-md"
-                                  onClick={handleClosePopup}
-                                >
-                                  No
-                                </button>
-                              </div>
-                            </div>
+                              No
+                            </button>
                           </div>
                         </div>
                       </div>

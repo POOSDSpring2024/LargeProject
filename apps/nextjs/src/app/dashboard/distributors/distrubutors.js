@@ -144,7 +144,7 @@ export function Distributors() {
   const addDistributor = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-item/create?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-item/create?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -180,7 +180,7 @@ export function Distributors() {
     try {
       // Make the first API call to update the distributor item name
       const response1 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-item/update-distributor-item-name?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-item/update-distributor-item-name?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -201,7 +201,7 @@ export function Distributors() {
       console.log('Unit Amount: ' + editedDistributorData.unitAmount);
       // Make the second API call to update the unit amount
       const response2 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-item/update-item-portion?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-item/update-item-portion?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -221,7 +221,7 @@ export function Distributors() {
 
       // Make the third API call to update the cost
       const response3 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-item/update-item-cost?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-item/update-item-cost?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -259,7 +259,7 @@ export function Distributors() {
     console.log('HRERE');
     try {
       const response1 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-metadata-list/update-deadline-date?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-metadata-list/update-deadline-date?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -276,7 +276,7 @@ export function Distributors() {
         throw new Error('Failed to update Deadline Date');
       }
       const response2 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-metadata-list/update-delivery-date?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-metadata-list/update-delivery-date?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -293,7 +293,7 @@ export function Distributors() {
         throw new Error('Failed to update Delivery Date');
       }
       const response3 = await fetch(
-        'http://localhost:3001/api/crud/business/distributor-metadata-list/update-meta-data?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/distributor-metadata-list/update-meta-data?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -327,7 +327,7 @@ export function Distributors() {
     };
 
     const response = await fetch(
-      'http://localhost:3001/api/crud/business/distributor-item/read-all?businessId=' +
+      'https://slicer-backend.vercel.app/api/crud/business/distributor-item/read-all?businessId=' +
         businessId,
       {
         method: 'POST',
@@ -355,7 +355,7 @@ export function Distributors() {
     };
 
     const response = await fetch(
-      'http://localhost:3001/api/crud/business/distributor-item/delete?businessId=' +
+      'https://slicer-backend.vercel.app/api/crud/business/distributor-item/delete?businessId=' +
         businessId,
       {
         method: 'POST',
@@ -377,7 +377,7 @@ export function Distributors() {
 
   const getBusinessId = async () => {
     const response = await fetch(
-      'http://localhost:3001/api/auth/user/user-info?id=' + userId,
+      'https://slicer-backend.vercel.app/api/auth/user/user-info?id=' + userId,
       {
         method: 'GET',
         headers: {
@@ -413,11 +413,11 @@ export function Distributors() {
   const readAll = async () => {
     try {
       console.log(
-        'http://localhost:3001/api/crud/business/item-list/read-all/?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=' +
           businessId
       );
       const response = await fetch(
-        'http://localhost:3001/api/crud/business/item-list/read-all/?businessId=' +
+        'https://slicer-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=' +
           businessId,
         {
           method: 'POST',
@@ -468,7 +468,9 @@ export function Distributors() {
           />
         ) : (
           <ul>
-            <h2 className="text-2xl font-bold text-center mb-4 border-b border-gray-700">Inventory List</h2>
+            <h2 className="text-2xl font-bold text-center mb-4 border-b border-gray-700">
+              Inventory List
+            </h2>
             {itemList !== null &&
               itemList.map((item, index) => (
                 <li key={index}>
@@ -603,24 +605,55 @@ export function Distributors() {
         {popupDistributor && (
           <div>
             <div
-              className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50"
-              onClick={handleClosePopup}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 1000,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backdropFilter: 'blur(4px)'
+              }}
+              onClick={e => e.stopPropagation()}
             >
               <div
-                className="bg-white p-4 rounded-md relative"
+                className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
+                style={{
+                  width: '40%',
+                  maxHeight: '70%',
+                  maxWidth: '90%',
+                  zIndex: 110,
+                  position: 'relative'
+                }}
                 onClick={e => e.stopPropagation()}
               >
+                <div className="flex justify-end p-2">
+                  <button
+                    onClick={handleClosePopup}
+                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
                 <DistributorPopup
                   businessId={businessId}
                   distributorName={popupDistributor.distributorName}
                   updateDistributorMetaData={updateDistributorMetaData}
                 />
-                <button
-                  className="absolute top-2 right-2"
-                  onClick={handleClosePopup}
-                >
-                  X
-                </button>
                 <h6>{updataDistributorMetaData.distributorName} MetaData</h6>
                 {editMode ? (
                   <>
@@ -683,19 +716,50 @@ export function Distributors() {
         {editPopupDistributor && (
           <div>
             <div
-              className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50"
-              onClick={handleClosePopup}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 1000,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backdropFilter: 'blur(4px)'
+              }}
+              onClick={e => e.stopPropagation()}
             >
               <div
-                className="bg-white p-4 rounded-md relative"
+                className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
+                style={{
+                  width: '40%',
+                  maxHeight: '70%',
+                  maxWidth: '90%',
+                  zIndex: 110,
+                  position: 'relative'
+                }}
                 onClick={e => e.stopPropagation()}
               >
-                <button
-                  className="absolute top-2 right-2"
-                  onClick={handleClosePopup}
-                >
-                  X
-                </button>
+                <div className="flex justify-end p-2">
+                  <button
+                    onClick={handleClosePopup}
+                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
                 <h6>Edit: {updataDistributorMetaData.distributorName}</h6>
                 <p>Distributor Item Name: </p>
                 <input
@@ -732,19 +796,50 @@ export function Distributors() {
         {addDistributorPopup && (
           <div>
             <div
-              className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50"
-              onClick={handleClosePopup}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 1000,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backdropFilter: 'blur(4px)'
+              }}
+              onClick={e => e.stopPropagation()}
             >
               <div
-                className="bg-white p-4 rounded-md relative"
+                className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
+                style={{
+                  width: '40%',
+                  maxHeight: '70%',
+                  maxWidth: '90%',
+                  zIndex: 110,
+                  position: 'relative'
+                }}
                 onClick={e => e.stopPropagation()}
               >
-                <button
-                  className="absolute top-2 right-2"
-                  onClick={handleClosePopup}
-                >
-                  X
-                </button>
+                <div className="flex justify-end p-2">
+                  <button
+                    onClick={handleClosePopup}
+                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
                 <h6>Create a new distributor/distributor item: </h6>
 
                 {/* const [newDistributor, setNewDistributor] = useState({
