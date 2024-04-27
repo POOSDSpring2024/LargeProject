@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
 
-const LocationTotal = ({ itemName, location, businessId, setCount }) => {
+const LocationTotal = ({
+  itemName,
+  location,
+  businessId,
+  unitName,
+  unitNumber
+}) => {
   const [totalLocationCount, setTotalLocationCount] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log(`FROM LOCATIONTOTAL: LOCATION=>${location}=>${location}`);
     const fetchTotalLocationCount = async () => {
       try {
         const response = await fetch(
-          'https://slicer-backend.vercel.app/api/crud/business/item-location/total-location-count?businessId=' +
-            businessId,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/item-location/total-location-count?businessId=${businessId}`,
           {
             method: 'POST',
             headers: {
@@ -24,7 +30,6 @@ const LocationTotal = ({ itemName, location, businessId, setCount }) => {
         const data = await response.json();
         const count = data.outputList[0];
         setTotalLocationCount(count);
-        setCount(count); // Directly pass the count value here
         setLoading(false);
       } catch (error) {
         console.error('Error fetching total location count:', error);
@@ -33,17 +38,21 @@ const LocationTotal = ({ itemName, location, businessId, setCount }) => {
     };
 
     fetchTotalLocationCount();
-  }, [itemName, businessId, location, setCount]);
+  }, [itemName, businessId, location]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return `Loading...`;
   }
+  // if (typeof unitNumber === 'undefined' || typeof unitName === 'undefined') {
+  //   return (
+  //     <p>
+  //       Total Location Count: {totalLocationCount}
+  //       (unitNumber or unitName is undefined)
+  //     </p>
+  //   );
+  // }
 
-  return (
-    <div>
-      <p>Total Location Count: {totalLocationCount}</p>
-    </div>
-  );
+  return `${(totalLocationCount / unitNumber).toFixed(2)} ${unitName}`;
 };
 
 export default LocationTotal;

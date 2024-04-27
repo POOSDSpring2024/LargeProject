@@ -1,4 +1,5 @@
 'use client';
+require('dotenv').config();
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -34,8 +35,12 @@ export default function SignUp() {
     }
 
     try {
+      console.log(
+        process.env.NEXT_PUBLIC_BACKEND_URL ||
+          'https://slicer-project-backend.vercel.app'
+      );
       const res = await fetch(
-        'https://slicer-backend.vercel.app/api/auth/user/signup',
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/auth/user/signup`,
         {
           method: 'POST',
           headers: {

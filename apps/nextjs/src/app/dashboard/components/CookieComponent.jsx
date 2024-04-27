@@ -13,6 +13,7 @@ function CookieComponent({ cookieName, onUserIdChange }) {
     if (cookie) {
       const value = cookie.split('=')[1];
       setCookieValue(value);
+      console.log('cookie: ' + value);
     } else {
       //No cookie of accessToken name
       router.push('/sign-in');
@@ -20,8 +21,11 @@ function CookieComponent({ cookieName, onUserIdChange }) {
   }, []);
 
   const verifyAccessToken = async accessToken => {
+    console.log(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/auth/${accessToken}`
+    );
     const response = await fetch(
-      'https://slicer-backend.vercel.app/api/auth/' + accessToken,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/auth/${accessToken}`,
       {
         method: 'POST',
         headers: {

@@ -1,5 +1,5 @@
 'use client';
-
+require('dotenv').config();
 import Link from 'next/link';
 import React from 'react';
 import { useState } from 'react';
@@ -22,7 +22,7 @@ export default function BusinessSignUp() {
     try {
       console.log(userId);
       const res = await fetch(
-        'https://slicer-backend.vercel.app/api/auth/business/add-connection',
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/auth/business/add-connection`,
         {
           method: 'POST',
           headers: {

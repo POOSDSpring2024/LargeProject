@@ -9,8 +9,7 @@ function ItemsNeededWrapper({ businessId, itemName, setItemsNeeded }) {
     console.log('here');
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-relation/read-needed?businessId=' +
-          businessId,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/item-relation/read-needed?businessId=${businessId}`,
         {
           method: 'POST',
           headers: {
@@ -25,6 +24,7 @@ function ItemsNeededWrapper({ businessId, itemName, setItemsNeeded }) {
       }
       const data = await response.json();
       const itemNeededList = data.outputList[0]?.itemNeededList || [];
+      console.log(`itemNeededList from ITEMSNEEDEDWRAPPER:${itemNeededList}`);
       return itemNeededList;
     } catch (error) {
       console.error('Error fetching items needed:', error);

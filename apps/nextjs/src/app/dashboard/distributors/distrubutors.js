@@ -22,6 +22,7 @@ export function Distributors() {
   const [addDistributorPopup, setaddDistributorPopup] = useState('');
   const [isSideNavOpen, setIsSideNavOpen] = useState(true);
   const [deletePopup, setDeletePopup] = useState('');
+  const [distributorPopup, setDistributorsPopup] = useState('');
 
   const handleSideNavOpen = openState => {
     setIsSideNavOpen(openState);
@@ -34,7 +35,8 @@ export function Distributors() {
     distributorName: '',
     distributorItemName: '',
     unitAmount: '',
-    cost: ''
+    cost: '',
+    priority: ''
   });
 
   const [editedDistributorMetaData, setEditedDistributorMetaData] = useState({
@@ -99,11 +101,14 @@ export function Distributors() {
   };
 
   const handleClosePopup = () => {
-    setDistributorPopup(null);
+    setDistributorPopup(false);
     setEditPopup(null);
     setaddDistributorPopup(null);
     setEditMode(false);
     setDeletePopup(false);
+  };
+  const handleCloseTablePopup = () => {
+    setDistributorsPopup(false);
   };
 
   const handleEditDistributor = distributor => {
@@ -112,7 +117,8 @@ export function Distributors() {
     setEditedDistributorData({
       distributorItemName: distributor.distributorItemName,
       unitAmount: distributor.distributorItemPortion,
-      cost: distributor.distributorItemCost
+      cost: distributor.distributorItemCost,
+      priority: distributor.priorityChoice
     });
   };
 
@@ -144,8 +150,7 @@ export function Distributors() {
   const addDistributor = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/distributor-item/create?businessId=' +
-          businessId,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/distributor-item/create?businessId=${businessId}`,
         {
           method: 'POST',
           headers: {
@@ -180,8 +185,7 @@ export function Distributors() {
     try {
       // Make the first API call to update the distributor item name
       const response1 = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/distributor-item/update-distributor-item-name?businessId=' +
-          businessId,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/distributor-item/update-distributor-item-name?businessId=${businessId}`,
         {
           method: 'POST',
           headers: {
@@ -201,8 +205,7 @@ export function Distributors() {
       console.log('Unit Amount: ' + editedDistributorData.unitAmount);
       // Make the second API call to update the unit amount
       const response2 = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/distributor-item/update-item-portion?businessId=' +
-          businessId,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/distributor-item/update-item-portion?businessId=${businessId}`,
         {
           method: 'POST',
           headers: {
@@ -221,8 +224,7 @@ export function Distributors() {
 
       // Make the third API call to update the cost
       const response3 = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/distributor-item/update-item-cost?businessId=' +
-          businessId,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/distributor-item/update-item-cost?businessId=${businessId}`,
         {
           method: 'POST',
           headers: {
@@ -236,6 +238,25 @@ export function Distributors() {
         }
       );
       if (!response3.ok) {
+        throw new Error('Failed to update cost');
+      }
+
+      // Make the third API call to update the cost
+      const response4 = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/distributor-item/update-priority-choice?businessId=${businessId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            itemName: itemName,
+            index: index,
+            newPriorityChoice: editedDistributorData.priority
+          })
+        }
+      );
+      if (!response4.ok) {
         throw new Error('Failed to update cost');
       }
 
@@ -259,8 +280,7 @@ export function Distributors() {
     console.log('HRERE');
     try {
       const response1 = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/distributor-metadata-list/update-deadline-date?businessId=' +
-          businessId,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/distributor-metadata-list/update-deadline-date?businessId=${businessId}`,
         {
           method: 'POST',
           headers: {
@@ -276,8 +296,7 @@ export function Distributors() {
         throw new Error('Failed to update Deadline Date');
       }
       const response2 = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/distributor-metadata-list/update-delivery-date?businessId=' +
-          businessId,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/distributor-metadata-list/update-delivery-date?businessId=${businessId}`,
         {
           method: 'POST',
           headers: {
@@ -293,8 +312,7 @@ export function Distributors() {
         throw new Error('Failed to update Delivery Date');
       }
       const response3 = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/distributor-metadata-list/update-meta-data?businessId=' +
-          businessId,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/distributor-metadata-list/update-meta-data?businessId=${businessId}`,
         {
           method: 'POST',
           headers: {
@@ -327,8 +345,7 @@ export function Distributors() {
     };
 
     const response = await fetch(
-      'https://slicer-backend.vercel.app/api/crud/business/distributor-item/read-all?businessId=' +
-        businessId,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/distributor-item/read-all?businessId=${businessId}`,
       {
         method: 'POST',
         headers: {
@@ -355,8 +372,7 @@ export function Distributors() {
     };
 
     const response = await fetch(
-      'https://slicer-backend.vercel.app/api/crud/business/distributor-item/delete?businessId=' +
-        businessId,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/distributor-item/delete?businessId=${businessId}`,
       {
         method: 'POST',
         headers: {
@@ -377,7 +393,7 @@ export function Distributors() {
 
   const getBusinessId = async () => {
     const response = await fetch(
-      'https://slicer-backend.vercel.app/api/auth/user/user-info?id=' + userId,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/auth/user/user-info?id=${userId}`,
       {
         method: 'GET',
         headers: {
@@ -407,18 +423,17 @@ export function Distributors() {
   }, [userId]);
 
   useEffect(() => {
+    console.log('here');
     if (businessId !== '') readAll();
   }, [businessId]);
 
   const readAll = async () => {
     try {
       console.log(
-        'https://slicer-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=' +
-          businessId
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/item-list/read-all/?businessId=${businessId}`
       );
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=' +
-          businessId,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/item-list/read-all/?businessId=${businessId}`,
         {
           method: 'POST',
           headers: {
@@ -430,7 +445,9 @@ export function Distributors() {
         throw new Error('Failed to fetch item names');
       }
       const data = await response.json();
-      const fieldValues = data.output;
+      const fieldValues = data.outputList;
+
+      console.log(fieldValues);
 
       setItemList(fieldValues);
     } catch (error) {
@@ -444,6 +461,10 @@ export function Distributors() {
   useEffect(() => {
     console.log('Index: ' + index);
   }, [index]);
+
+  useEffect(() => {
+    console.log('Updated itemList:', itemList);
+  }, [itemList]);
 
   useEffect(() => {
     if (editMode) {
@@ -469,172 +490,99 @@ export function Distributors() {
         ) : (
           <ul>
             <h2 className="text-2xl font-bold text-center mb-4 border-b border-gray-700">
-              Inventory List
+              Distributors
             </h2>
-            {itemList !== null &&
-              itemList.map((item, index) => (
-                <li key={index}>
-                  <div className="relative">
-                    <div className="flex items-center ml-2">
-                      <button
-                        onClick={() => {
-                          getItemName(item.itemName);
-                          setOpenIndex(openIndex === index ? null : index);
-                        }}
-                        type="button"
-                        className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-300 shadow-sm bg-white text-sm text-gray-700 hover:bg-gray-50 focus:outline-none"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          {openIndex === index ? (
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 15l7-7 7 7"
-                            />
-                          ) : (
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M19 9l-7 7-7-7"
-                            />
-                          )}
-                        </svg>
-                      </button>
-                      <div className="mb-2">
+            {itemList !== null && (
+              <table className="w-full divide-y divide-gray-200 dark:divide-neutral-700">
+                <thead>
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-20 py-4 text-start text-lg font-medium text-gray-500 uppercase dark:text-neutral-500 w-[50%]"
+                    >
+                      Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-20 py-4 text-start text-lg font-medium text-gray-500 uppercase dark:text-neutral-500 w-[50%]"
+                    >
+                      Distributor Info
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
+                  {itemList.map((item, index) => (
+                    <tr
+                      key={index}
+                      className="hover:bg-gray-100 dark:hover:bg-neutral-700 h-24 overflow-y-auto"
+                    >
+                      <td className="px-20 py-6 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-neutral-200 w-[50%]">
+                        <div className="relative">
+                          <div className="flex items-center ml-2">
+                            <div className="mb-2">{item.itemName}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-20 py-6 whitespace-nowrap text-lg font-medium text-gray-800 dark:text-neutral-200 w-[50%]">
                         <button
-                          onClick={() => {
-                            getItemName(item.itemName);
-                            setOpenIndex(openIndex === index ? null : index);
+                          onClick={e => {
+                            setItemName(item.itemName);
+                            setDistributorsPopup(true);
+                            e.stopPropagation();
                           }}
                           type="button"
-                          className="inline-flex items-center justify-center ml-2 mr-2 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
-                          id="dropdown-menu-button"
+                          className="inline-flex items-center gap-x-2 text-lg font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 w-[100%]"
                         >
-                          {item.itemName}
+                          Distributor Info
                         </button>
-                        <button
-                          className="rounded-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2"
-                          onClick={() => {
-                            getItemName(item.itemName);
-                            handleAddPopup(item);
-                          }}
-                        >
-                          Add Distributor
-                        </button>
-                      </div>
-                    </div>
-                    {openIndex === index && (
-                      <div className="ml-12">
-                        <div className="flex items-center ml-2">
-                          <h6 className="mr-auto">Distributors:</h6>
-                        </div>
-                        <Distributor
-                          itemName={item.itemName}
-                          businessId={businessId}
-                          updateDistributorList={updateDistributorList}
-                        />
-
-                        <ul>
-                          {distributorList.map((distributor, i) => (
-                            <li
-                              key={i}
-                              className="block px-4 py-2 text-sm text-gray-700"
-                            >
-                              <p>
-                                Distributor: {distributor.distributorName}
-                                <button
-                                  onClick={() =>
-                                    handleDistributorPopup(distributor)
-                                  }
-                                  type="button"
-                                  className="ml-2 inline-flex items-center justify-center w-6 h-6 rounded-full border border-gray-300 shadow-sm bg-white text-sm text-gray-700 hover:bg-gray-50 focus:outline-none"
-                                >
-                                  i
-                                </button>
-                              </p>
-                              <div className="flex items-baseline">
-                                <p className="mr-2">
-                                  Item: {distributor.distributorItemName}
-                                </p>
-                                <button
-                                  onClick={() => {
-                                    setIndex(i);
-                                    handleEditDistributor(distributor);
-                                  }}
-                                  type="button"
-                                  className="rounded-full bg-blue-500 hover:bg-blue-600 text-white px-2 py-1"
-                                >
-                                  Edit
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    setIndex(i);
-                                    setItemName(item.itemName);
-                                    handleDeleteDistributor(distributor);
-                                  }}
-                                  type="button"
-                                  className="rounded-full bg-blue-500 hover:bg-blue-600 text-white px-2 py-1"
-                                >
-                                  Delete
-                                </button>
-                              </div>
-                              <p>
-                                PortionSize:{' '}
-                                {distributor.distributorItemPortion}
-                              </p>
-                              <p>Cost: {distributor.distributorItemCost}</p>
-                              <p>Priority: {distributor.priorityChoice}</p>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </li>
-              ))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </ul>
         )}
-        {popupDistributor && (
-          <div>
+
+        {distributorPopup && (
+          <div
+            className="ml-12"
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: -60,
+              width: '100vw', // Cover entire viewport width
+              height: '100vh', // Cover entire viewport height
+              zIndex: 1000,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backdropFilter: 'blur(4px)'
+            }}
+            onClick={e => e.stopPropagation()}
+          >
             <div
+              className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
               style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 1000,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backdropFilter: 'blur(4px)'
+                width: '80%',
+                zIndex: 110,
+                position: 'relative',
+                overflowY: 'auto' // Added to make the popup content scrollable
               }}
               onClick={e => e.stopPropagation()}
             >
-              <div
-                className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
-                style={{
-                  width: '40%',
-                  maxHeight: '70%',
-                  maxWidth: '90%',
-                  zIndex: 110,
-                  position: 'relative'
-                }}
-                onClick={e => e.stopPropagation()}
-              >
-                <div className="flex justify-end p-2">
-                  <button
-                    onClick={handleClosePopup}
-                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+              <div className="flex justify-end p-2">
+                <button
+                  onClick={handleCloseTablePopup}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
+<<<<<<< HEAD
                     <svg
                       className="w-5 h-5"
                       fill="currentColor"
@@ -709,15 +657,270 @@ export function Distributors() {
                     <button onClick={() => setEditMode(true)}>Edit</button>
                   </>
                 )}
+=======
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+>>>>>>> 4889e5eafe8fdaf2d92d32e1e8fd699fe54637ae
               </div>
+              <div className="flex items-center ml-2">
+                <h6 className="mr-auto">Distributors:</h6>
+              </div>
+              <Distributor
+                itemName={itemName}
+                businessId={businessId}
+                updateDistributorList={updateDistributorList}
+              />
+              <ul>
+                <button
+                  className="rounded-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2"
+                  onClick={() => {
+                    getItemName(itemName);
+                    handleAddPopup(itemName);
+                  }}
+                >
+                  Add Distributor
+                </button>
+                <table className="min-w-full border border-collapse border-gray-300">
+                  <thead>
+                    <tr>
+                      <th className="px-6 py-3 border-r border-b border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Distributor Name
+                      </th>
+                      <th className="px-6 py-3 border-r border-b border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Item
+                      </th>
+                      <th className="px-6 py-3 border-r border-b border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Portion Size
+                      </th>
+                      <th className="px-6 py-3 border-r border-b border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Cost
+                      </th>
+                      <th className="px-6 py-3 border-r border-b border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Priority
+                      </th>
+                      <th className="px-6 py-3 border-r border-b border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white">
+                    {distributorList.map((distributor, i) => (
+                      <tr key={i}>
+                        <td className="px-6 py-4 border-r border-b border-gray-300 whitespace-nowrap text-center">
+                          <p>
+                            Distributor: {distributor.distributorName}
+                            <button
+                              onClick={() =>
+                                handleDistributorPopup(distributor)
+                              }
+                              type="button"
+                              className="ml-2 inline-flex items-center justify-center w-6 h-6 rounded-full border border-gray-300 shadow-sm bg-white text-sm text-gray-700 hover:bg-gray-50 focus:outline-none"
+                            >
+                              i
+                            </button>
+                          </p>
+                        </td>
+                        <td className="px-6 py-4 border-r border-b border-gray-300 whitespace-nowrap text-center">
+                          <div className="flex items-baseline">
+                            <p className="mr-2">
+                              {distributor.distributorItemName}
+                            </p>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 border-r border-b border-gray-300 whitespace-nowrap text-center">
+                          {distributor.distributorItemPortion}
+                        </td>
+                        <td className="px-6 py-4 border-r border-b border-gray-300 whitespace-nowrap text-center">
+                          {distributor.distributorItemCost}
+                        </td>
+                        <td className="px-6 py-4 border-r border-b border-gray-300 whitespace-nowrap text-center">
+                          {distributor.priorityChoice}
+                        </td>
+                        <td className="px-6 py-4 border-r border-b border-gray-300 whitespace-nowrap text-center">
+                          <button
+                            onClick={() => {
+                              setIndex(i);
+                              handleEditDistributor(distributor);
+                            }}
+                            className="bg-green-500 text-white px-2 py-1 rounded text-sm mr-2"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => {
+                              setIndex(i);
+                              setItemName(itemName);
+                              handleDeleteDistributor(distributor);
+                            }}
+                            className="bg-red-500 text-white px-2 py-1 rounded text-sm"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </ul>
             </div>
           </div>
         )}
+
+        {popupDistributor && (
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw', // Cover entire viewport width
+              height: '100vh', // Cover entire viewport height
+              zIndex: 1000,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backdropFilter: 'blur(4px)'
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div
+              className="bg-white p-8 rounded-md border border-gray-300 relative text-center backdrop-filter backdrop-blur-sm z-150"
+              style={{
+                width: '40%',
+                maxHeight: '70%',
+                maxWidth: '90%',
+                zIndex: 110,
+                position: 'relative'
+              }}
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex justify-end p-2">
+                <button
+                  onClick={handleClosePopup}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+              <DistributorPopup
+                businessId={businessId}
+                distributorName={popupDistributor.distributorName}
+                updateDistributorMetaData={updateDistributorMetaData}
+              />
+              <h6>{updataDistributorMetaData.distributorName} MetaData</h6>
+              {editMode ? (
+                <>
+                  <p>Deadline Date: </p>
+                  <input
+                    type="text"
+                    value={editedDistributorMetaData.deadlineDate}
+                    onChange={e =>
+                      handleInputChange(e, 'deadlineDate', 'edited')
+                    }
+                    className="bg-gray-100 rounded-md p-2 mb-2"
+                  />
+                  <p>Delivery Date: </p>
+                  <input
+                    type="text"
+                    value={editedDistributorMetaData.deliveryDate}
+                    onChange={e =>
+                      handleInputChange(e, 'deliveryDate', 'edited')
+                    }
+                    className="bg-gray-100 rounded-md p-2 mb-2"
+                  />
+                  <p>Notes (MetaData): </p>
+                  <input
+                    type="text"
+                    value={editedDistributorMetaData.noteMetaData}
+                    onChange={e =>
+                      handleInputChange(e, 'noteMetaData', 'edited')
+                    }
+                    className="bg-gray-100 rounded-md p-2 mb-2"
+                  />
+                  {/* Add other input fields */}
+                  <br />
+                  {/* Save button */}
+                  <button
+                    onClick={() => {
+                      EditDistributorMetaData(itemName);
+                      handleClosePopup();
+                    }}
+                    className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                  >
+                    Save
+                  </button>
+                </>
+              ) : (
+                <table className="min-w-full border border-collapse border-gray-300">
+                  <tbody className="bg-white">
+                    {/* Deadline Date */}
+                    <tr>
+                      <td className="px-6 py-4 border-r border-b border-gray-300 whitespace-nowrap text-center">
+                        Deadline Date
+                      </td>
+                      <td className="px-6 py-4 border-b border-gray-300 whitespace-nowrap text-center">
+                        {updataDistributorMetaData.distributorDeadlineDate}
+                      </td>
+                    </tr>
+                    {/* Delivery Date */}
+                    <tr>
+                      <td className="px-6 py-4 border-r border-b border-gray-300 whitespace-nowrap text-center">
+                        Delivery Date
+                      </td>
+                      <td className="px-6 py-4 border-b border-gray-300 whitespace-nowrap text-center">
+                        {updataDistributorMetaData.distributorDeliveryDate}
+                      </td>
+                    </tr>
+                    {/* Notes (MetaData) */}
+                    <tr>
+                      <td className="px-6 py-4 border-r border-b border-gray-300 whitespace-nowrap text-center">
+                        Notes (MetaData)
+                      </td>
+                      <td className="px-6 py-4 border-b border-gray-300 whitespace-nowrap text-center">
+                        {updataDistributorMetaData.distributorMetaData}
+                      </td>
+                    </tr>
+                    {/* Edit button */}
+                    <tr>
+                      <td
+                        colSpan="2"
+                        className="px-6 py-4 border-b border-gray-300 whitespace-nowrap text-center"
+                      >
+                        <button
+                          onClick={() => setEditMode(true)}
+                          className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        >
+                          Edit
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
+            </div>
+          </div>
+        )}
+
         {editPopupDistributor && (
           <div>
             <div
               style={{
-                position: 'absolute',
+                position: 'fixed',
                 top: 0,
                 left: 0,
                 right: 0,
@@ -787,8 +990,28 @@ export function Distributors() {
                   onChange={e => handleInputChange(e, 'cost', 'edited')}
                   className="bg-gray-100 rounded-md p-2 mb-2"
                 />
+                <p>Priority: </p>
+                <input
+                  type="text"
+                  name="priority"
+                  value={editedDistributorData.priority}
+                  onChange={e => handleInputChange(e, 'priority', 'edited')}
+                  className="bg-gray-100 rounded-md p-2 mb-2"
+                />
                 <br></br>
+<<<<<<< HEAD
                 <button className="text-white bg-blue-500 p-4 rounded-md relative"onClick={() => EditDistributor(itemName)}>Save</button>
+=======
+                <button
+                  onClick={() => {
+                    EditDistributor(itemName);
+                    handleClosePopup();
+                  }}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                >
+                  Save
+                </button>
+>>>>>>> 4889e5eafe8fdaf2d92d32e1e8fd699fe54637ae
               </div>
             </div>
           </div>
@@ -797,7 +1020,7 @@ export function Distributors() {
           <div>
             <div
               style={{
-                position: 'absolute',
+                position: 'fixed',
                 top: 0,
                 left: 0,
                 right: 0,
@@ -904,6 +1127,7 @@ export function Distributors() {
                     addDistributor();
                     handleClosePopup();
                   }}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 >
                   Create
                 </button>
@@ -914,7 +1138,7 @@ export function Distributors() {
         {deletePopup && (
           <div
             style={{
-              position: 'absolute',
+              position: 'fixed',
               top: 0,
               left: 0,
               right: 0,
