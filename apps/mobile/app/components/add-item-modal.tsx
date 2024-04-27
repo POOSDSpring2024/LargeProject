@@ -20,7 +20,7 @@ const AddItemModal = ({
     console.log('Request Body:', requestBody);
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-list/create?businessId=' +
+        'https://slicer-project-backend.vercel.app/api/crud/business/item-list/create?businessId=' +
           businessId,
         {
           method: 'POST',

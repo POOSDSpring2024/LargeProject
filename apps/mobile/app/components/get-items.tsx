@@ -6,7 +6,7 @@ export default function ItemList(businessId) {
     try {
       if (businessId) {
         const response = await fetch(
-          `https://slicer-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=${businessId}`,
+          `https://slicer-project-backend.vercel.app/api/crud/business/item-list/read-all/?businessId=${businessId}`,
           {
             method: 'POST',
             headers: {

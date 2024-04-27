@@ -8,7 +8,7 @@ export default function GetLocations(businessId, itemName) {
   const fetchLocationList = async () => {
     try {
       const response = await fetch(
-        'https://slicer-backend.vercel.app/api/crud/business/item-location/read-all?businessId=' +
+        'https://slicer-project-backend.vercel.app/api/crud/business/item-location/read-all?businessId=' +
           businessId,
         {
           method: 'POST',
