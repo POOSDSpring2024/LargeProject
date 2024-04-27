@@ -8,7 +8,8 @@ function LocationPopup({ locationName, businessId, updataLocationMetaData }) {
   const getLocationMetaData = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/location-metadata-list/read-one?businessId=${businessId}`,
+        'https://slicer-backend.vercel.app/api/crud/business/location-metadata-list/read-one?businessId=' +
+          businessId,
         {
           method: 'POST',
           headers: {

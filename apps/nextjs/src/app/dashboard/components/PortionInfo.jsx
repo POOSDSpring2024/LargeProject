@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 function PortionInfo({ businessId, itemName, setPortionInfoMap }) {
-  const [loading, setLoading] = useState(true);
-  const [portionInfoList, setPortionInfoList] = useState([]);
+  console.log(itemName);
+  const requestBody = {
+    itemName: itemName
+  };
 
   const fetchPortionInfo = async () => {
     try {
-      const requestBody = {
-        itemName: itemName
-      };
-
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/portion-info-list/read-all?businessId=${businessId}`,
+        'https://slicer-backend.vercel.app/api/crud/business/portion-info-list/read-all?businessId=' +
+          businessId,
         {
           method: 'POST',
           headers: {
@@ -24,41 +23,27 @@ function PortionInfo({ businessId, itemName, setPortionInfoMap }) {
       if (!response.ok) {
         throw new Error('Failed to fetch portion info');
       }
-
       const data = await response.json();
-      const fetchedPortionInfoList = data.outputList[0]?.portionInfoList || [];
-      return fetchedPortionInfoList;
+      const portionInfoList = data.outputList[0]?.portionInfoList || []; // Extract portionInfoList from response data
+      return portionInfoList;
     } catch (error) {
       console.error('Error fetching portion info:', error);
-      return [];
+      return []; // Return an empty array in case of error
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedPortionInfoList = await fetchPortionInfo();
-        setPortionInfoList(fetchedPortionInfoList);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      }
+    const fetchAndSetPortionInfo = async () => {
+      console.log('Fetching portion info for itemName:', itemName); // Debugging log
+      const portionInfoList = await fetchPortionInfo();
+      console.log('Fetched portion info:', portionInfoList); // Debugging log
+      setPortionInfoMap(itemName, portionInfoList);
     };
 
-    fetchData();
-  }, [businessId, itemName]); // Dependencies for useEffect
+    fetchAndSetPortionInfo();
+  }, [businessId, itemName]);
 
-  useEffect(() => {
-    // Pass the fetched portionInfoList to the parent component
-    setPortionInfoMap(itemName, portionInfoList);
-  }, [portionInfoList, itemName, setPortionInfoMap]); // Dependencies for useEffect
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  return null;
+  return null; // This component doesn't render anything directly
 }
 
 export default PortionInfo;

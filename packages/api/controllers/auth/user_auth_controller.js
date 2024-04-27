@@ -83,9 +83,9 @@ module.exports.VerifyEmail = async (req, res) => {
         .json({ error: 'Invalid or expired verification link.' });
     }
   } catch (error) {
-    return res.status(500).json({
-      error: `An error occurred during the verification process.${error}`
-    });
+    return res
+      .status(500)
+      .json({ error: 'An error occurred during the verification process.' });
   }
 };
 
@@ -112,14 +112,14 @@ module.exports.forgotPassword = async (req, res) => {
 
     const resetToken = user.generatePasswordResetToken();
     await user.save({ validateBeforeSave: false });
-    // console.log(`resetToken ${resetToken}`);
-    // console.log(`user ${user}`);
-    // console.log(
-    //   `UnHASHED:${crypto.createHash('sha256').update(resetToken).digest('hex')}`
-    // );
+    console.log(`resetToken ${resetToken}`);
+    console.log(`user ${user}`);
+    console.log(
+      `UnHASHED:${crypto.createHash('sha256').update(resetToken).digest('hex')}`
+    );
 
     // const resetUrl = `${req.protocol}://${req.get('host')}/forgot-password-change?token=${resetToken}`;
-    const resetUrl = `https://slicer-project.vercel.app/forgot-password-change?token=${resetToken}`;
+    const resetUrl = `https://slicer-nine.vercel.app/forgot-password-change?token=${resetToken}`;
     const emailText = `<p>Forgot password? Reset password by clicking on the link below: </p><a href="${resetUrl}">Reset Password</a>`;
     // Call function
     const emailSent = await sendResetEmail(
@@ -166,8 +166,8 @@ exports.resetPassword = async (req, res) => {
     //   passworResetExpires: { $gt: Date.now() }
     // });
     const currentDate = new Date();
-    // console.log(currentDate);
-    // console.log(currentDate.toISOString());
+    console.log(currentDate);
+    console.log(currentDate.toISOString());
 
     const user = await User.findOne({
       passwordResetToken: token,
@@ -274,7 +274,7 @@ module.exports.Login = async (req, res) => {
       accessToken: accessToken
     });
   } catch (error) {
-    return res.status(500).json({ error: `Internal Server Error:${error}` });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -288,11 +288,11 @@ module.exports.Login = async (req, res) => {
 module.exports.GetUserInfo = async (req, res) => {
   try {
     const userId = req.query.id;
-    // console.log(userId);
+    console.log(userId);
 
     // Find user by username using the User model
     const user = await User.findOne({ _id: userId });
-    // console.log(user);
+    console.log(user);
 
     if (!user) {
       return res.status(400).json({ error: 'Incorrect userId' });

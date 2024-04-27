@@ -10,12 +10,8 @@ export default function SignIn() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      console.log(
-        process.env.NEXT_PUBLIC_BACKEND_URL ||
-          'https://slicer-project-backend.vercel.app'
-      );
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/auth/user/login`,
+        `https://slicer-backend.vercel.app/api/auth/user/login`,
         {
           method: 'POST',
           headers: {
