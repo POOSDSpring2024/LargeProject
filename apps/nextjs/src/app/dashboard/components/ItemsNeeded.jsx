@@ -8,7 +8,8 @@ function ItemsNeeded({ businessId, itemName, setItemsNeeded }) {
   const fetchItemsNeeded = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/item-relation/read-needed?businessId=${businessId}`,
+        'https://slicer-backend.vercel.app/api/crud/business/item-relation/read-needed?businessId=' +
+          businessId,
         {
           method: 'POST',
           headers: {
@@ -23,7 +24,6 @@ function ItemsNeeded({ businessId, itemName, setItemsNeeded }) {
       }
       const data = await response.json();
       const itemNeededList = data.outputList[0]?.itemNeededList || []; // Extract itemNeededList from response data
-      console.log(`itemNeededList FROM ITEMSNEEDED.jsx: ${itemNeededList}`);
       return itemNeededList;
     } catch (error) {
       console.error('Error fetching items needed:', error);

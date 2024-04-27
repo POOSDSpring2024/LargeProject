@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-const LocationTotal = ({
-  itemName,
-  location,
-  businessId,
-  unitName,
-  unitNumber
-}) => {
+const LocationTotal = ({ itemName, location, businessId, setCount }) => {
   const [totalLocationCount, setTotalLocationCount] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(`FROM LOCATIONTOTAL: LOCATION=>${location}=>${location}`);
     const fetchTotalLocationCount = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://slicer-project-backend.vercel.app'}/api/crud/business/item-location/total-location-count?businessId=${businessId}`,
+          'https://slicer-backend.vercel.app/api/crud/business/item-location/total-location-count?businessId=' +
+            businessId,
           {
             method: 'POST',
             headers: {
@@ -30,6 +24,7 @@ const LocationTotal = ({
         const data = await response.json();
         const count = data.outputList[0];
         setTotalLocationCount(count);
+        setCount(count); // Directly pass the count value here
         setLoading(false);
       } catch (error) {
         console.error('Error fetching total location count:', error);
@@ -38,21 +33,17 @@ const LocationTotal = ({
     };
 
     fetchTotalLocationCount();
-  }, [itemName, businessId, location]);
+  }, [itemName, businessId, location, setCount]);
 
   if (loading) {
-    return `Loading...`;
+    return <p>Loading...</p>;
   }
-  // if (typeof unitNumber === 'undefined' || typeof unitName === 'undefined') {
-  //   return (
-  //     <p>
-  //       Total Location Count: {totalLocationCount}
-  //       (unitNumber or unitName is undefined)
-  //     </p>
-  //   );
-  // }
 
-  return `${(totalLocationCount / unitNumber).toFixed(2)} ${unitName}`;
+  return (
+    <div>
+      <p>Total Location Count: {totalLocationCount}</p>
+    </div>
+  );
 };
 
 export default LocationTotal;
